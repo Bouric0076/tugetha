@@ -17,6 +17,7 @@ tugetha/.pub/
 tugetha/build/
 tugetha/ios/Flutter/.last_build_id
 tugetha/android/app/google-services.json
+tugetha/lib/firebase_options.dart
 
 # Environment files
 .env

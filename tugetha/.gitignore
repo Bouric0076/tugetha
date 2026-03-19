@@ -43,3 +43,21 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Google Services
+google-services.json
+**/ios/Runner/GoogleService-Info.plist
+
+# Local properties and keys
+local.properties
+**/android/key.properties
+**/*.keystore
+**/*.jks
+
+# Environment variables
+.env
+*.env
+lib/env.dart
+
+# Generated Firebase Options (optional, but recommended if it contains sensitive IDs)
+# lib/firebase_options.dart

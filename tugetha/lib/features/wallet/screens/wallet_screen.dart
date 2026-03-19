@@ -4,8 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/providers/app_providers.dart';
 import '../widgets/transaction_item.dart';
-import 'topup_screen.dart';
-import 'withdraw_screen.dart';
+
 
 class WalletScreen extends ConsumerWidget {
   const WalletScreen({super.key});
@@ -55,25 +54,8 @@ class WalletScreen extends ConsumerWidget {
                   // Balance card
                   _BalanceCard(
                     balance: balance,
-                    onTopUp: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const TopUpScreen(),
-                      ),
-                    ).then((_) {
-                      ref.invalidate(userStreamProvider);
-                      ref.invalidate(walletBalanceProvider);
-                    }),
-                    onWithdraw: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) =>
-                            WithdrawScreen(balance: balance),
-                      ),
-                    ).then((_) {
-                      ref.invalidate(userStreamProvider);
-                      ref.invalidate(walletBalanceProvider);
-                    }),
+                    onTopUp: () => _showComingSoon(context),
+                    onWithdraw: () => _showComingSoon(context),
                   ),
                   const SizedBox(height: 28),
 
@@ -174,6 +156,66 @@ class WalletScreen extends ConsumerWidget {
     if (diff.inHours < 24) return '${diff.inHours}h ago';
     if (diff.inDays == 1) return 'Yesterday';
     return '${diff.inDays}d ago';
+  }
+
+  void _showComingSoon(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => Container(
+        padding: const EdgeInsets.all(32),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius:
+              BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 72,
+              height: 72,
+              decoration: const BoxDecoration(
+                color: AppColors.primaryLighter,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.construction_rounded,
+                color: AppColors.primary,
+                size: 36,
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Coming Soon!',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: AppColors.dark,
+                fontFamily: 'Poppins',
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'This feature is currently under development.\nStay tuned for updates!',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: AppColors.grey,
+                fontFamily: 'Poppins',
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Got it'),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
+    );
   }
 }
 

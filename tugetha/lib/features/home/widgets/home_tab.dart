@@ -6,9 +6,9 @@ import '../../../core/providers/app_providers.dart';
 import '../../groups/screens/create_group_screen.dart';
 import '../../goals/screens/create_goal_screen.dart';
 import '../../loans/screens/request_loan_screen.dart';
-import '../../wallet/screens/withdraw_screen.dart';
-import '../../wallet/screens/topup_screen.dart';
+
 import '../../wallet/screens/wallet_screen.dart';
+import '../../wallet/screens/topup_screen.dart';
 
 class HomeTab extends ConsumerWidget {
   const HomeTab({super.key});
@@ -30,6 +30,66 @@ class HomeTab extends ConsumerWidget {
     return balance.toStringAsFixed(2).replaceAllMapped(
       RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
       (m) => '${m[1]},',
+    );
+  }
+
+  void _showComingSoon(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => Container(
+        padding: const EdgeInsets.all(32),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius:
+              BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 72,
+              height: 72,
+              decoration: const BoxDecoration(
+                color: AppColors.primaryLighter,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.construction_rounded,
+                color: AppColors.primary,
+                size: 36,
+              ),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Coming Soon!',
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: AppColors.dark,
+                fontFamily: 'Poppins',
+              ),
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'This feature is currently under development.\nStay tuned for updates!',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                color: AppColors.grey,
+                fontFamily: 'Poppins',
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text('Got it'),
+            ),
+            const SizedBox(height: 16),
+          ],
+        ),
+      ),
     );
   }
 
@@ -183,6 +243,7 @@ class HomeTab extends ConsumerWidget {
                   _WalletCard(
                     balance: balance,
                     formatBalance: _formatBalance,
+                    showComingSoon: _showComingSoon,
                   ),
                   const SizedBox(height: 28),
 
@@ -197,7 +258,10 @@ class HomeTab extends ConsumerWidget {
                     ),
                   ),
                   const SizedBox(height: 16),
-                  _QuickActions(balance: balance),
+                  _QuickActions(
+                    balance: balance,
+                    showComingSoon: _showComingSoon,
+                  ),
                   const SizedBox(height: 28),
 
                   // Active goals
@@ -359,10 +423,12 @@ class _EmptyStateCard extends StatelessWidget {
 class _WalletCard extends StatefulWidget {
   final double balance;
   final String Function(double) formatBalance;
+  final void Function(BuildContext) showComingSoon;
 
   const _WalletCard({
     required this.balance,
     required this.formatBalance,
+    required this.showComingSoon,
   });
 
   @override
@@ -431,21 +497,13 @@ class _WalletCardState extends State<_WalletCard> {
               _WalletAction(
                 icon: Icons.add_rounded,
                 label: 'Top Up',
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const TopUpScreen()),
-                ),
+                onTap: () => widget.showComingSoon(context),
               ),
               const SizedBox(width: 12),
               _WalletAction(
                 icon: Icons.arrow_upward_rounded,
                 label: 'Withdraw',
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => WithdrawScreen(balance: widget.balance),
-                  ),
-                ),
+                onTap: () => widget.showComingSoon(context),
               ),
               const SizedBox(width: 12),
               _WalletAction(
@@ -509,7 +567,12 @@ class _WalletAction extends StatelessWidget {
 // ── Quick Actions ──
 class _QuickActions extends StatelessWidget {
   final double balance;
-  const _QuickActions({required this.balance});
+  final void Function(BuildContext) showComingSoon;
+
+  const _QuickActions({
+    required this.balance,
+    required this.showComingSoon,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -549,12 +612,7 @@ class _QuickActions extends StatelessWidget {
         label: 'Send\nMoney',
         color: const Color(0xFF854F0B),
         bg: const Color(0xFFFAEEDA),
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => WithdrawScreen(balance: balance),
-          ),
-        ),
+        onTap: () => showComingSoon(context),
       ),
     ];
 
