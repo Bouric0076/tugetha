@@ -1,0 +1,23 @@
+# Root .gitignore
+.vscode/
+.DS_Store
+
+# Django project
+tugetha-payments/.env
+tugetha-payments/__pycache__/
+tugetha-payments/**/*.py[cod]
+tugetha-payments/**/*.so
+tugetha-payments/db.sqlite3
+tugetha-payments/celerybeat-schedule
+
+# Flutter project (already has its own, but for safety)
+tugetha/.dart_tool/
+tugetha/.pub-cache/
+tugetha/.pub/
+tugetha/build/
+tugetha/ios/Flutter/.last_build_id
+tugetha/android/app/google-services.json
+
+# Environment files
+.env
+*.env

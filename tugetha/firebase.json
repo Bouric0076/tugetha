@@ -1,0 +1,26 @@
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "tugetha-c5d4a",
+          "appId": "1:571607617897:android:4ac45b8854ea7d4464adf8",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "tugetha-c5d4a",
+          "configurations": {
+            "android": "1:571607617897:android:4ac45b8854ea7d4464adf8",
+            "ios": "1:571607617897:ios:1e90c57e8073def464adf8"
+          }
+        }
+      }
+    }
+  },
+  "firestore": {
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "571607617897",
+    "project_id": "tugetha-c5d4a",
+    "storage_bucket": "tugetha-c5d4a.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:571607617897:android:4ac45b8854ea7d4464adf8",
+        "android_client_info": {
+          "package_name": "com.sinaps.tugetha"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvJG-SHT331L9hjgKNu2G5BJMkpPJE4z4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
