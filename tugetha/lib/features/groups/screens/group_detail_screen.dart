@@ -108,8 +108,7 @@ class GroupDetailScreen extends StatelessWidget {
                 children: [
                   // Members
                   Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
                         'Members',
@@ -121,8 +120,7 @@ class GroupDetailScreen extends StatelessWidget {
                         ),
                       ),
                       TextButton.icon(
-                        onPressed: () =>
-                            _showInviteSheet(context),
+                        onPressed: () => _showInviteSheet(context),
                         icon: const Icon(
                           Icons.person_add_outlined,
                           size: 16,
@@ -134,15 +132,13 @@ class GroupDetailScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   _MembersRow(
                     memberIds: members.cast<String>(),
-                    onInviteTap: () =>
-                        _showInviteSheet(context),
+                    onInviteTap: () => _showInviteSheet(context),
                   ),
                   const SizedBox(height: 28),
 
                   // Goals
                   Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
                         'Goals',
@@ -204,8 +200,7 @@ class GroupDetailScreen extends StatelessWidget {
         padding: const EdgeInsets.all(28),
         decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -254,8 +249,7 @@ class GroupDetailScreen extends StatelessWidget {
                       Clipboard.setData(
                         ClipboardData(text: inviteCode),
                       );
-                      ScaffoldMessenger.of(context)
-                          .showSnackBar(
+                      ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
                           content: Text(
                             'Invite code copied!',
@@ -270,10 +264,8 @@ class GroupDetailScreen extends StatelessWidget {
                     child: Container(
                       padding: const EdgeInsets.all(8),
                       decoration: BoxDecoration(
-                        color: AppColors.primary
-                            .withOpacity(0.1),
-                        borderRadius:
-                            BorderRadius.circular(8),
+                        color: AppColors.primary.withValues(alpha: 0.1),
+                        borderRadius: BorderRadius.circular(8),
                       ),
                       child: const Icon(
                         Icons.copy_rounded,
@@ -406,17 +398,14 @@ class _MembersRowState extends State<_MembersRow> {
                     children: [
                       CircleAvatar(
                         radius: 26,
-                        backgroundColor: isMe
-                            ? AppColors.primary
-                            : AppColors.primaryLighter,
+                        backgroundColor:
+                            isMe ? AppColors.primary : AppColors.primaryLighter,
                         child: Text(
                           initials,
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
-                            color: isMe
-                                ? Colors.white
-                                : AppColors.primary,
+                            color: isMe ? Colors.white : AppColors.primary,
                             fontFamily: 'Poppins',
                           ),
                         ),
@@ -455,10 +444,10 @@ class _MembersRowState extends State<_MembersRow> {
             children: [
               GestureDetector(
                 onTap: widget.onInviteTap,
-                child: CircleAvatar(
+                child: const CircleAvatar(
                   radius: 26,
                   backgroundColor: AppColors.greyLighter,
-                  child: const Icon(
+                  child: Icon(
                     Icons.add_rounded,
                     color: AppColors.grey,
                   ),
@@ -491,8 +480,7 @@ class _GoalsList extends StatelessWidget {
     return StreamBuilder<QuerySnapshot>(
       stream: FirestoreService.goalsStream(groupId),
       builder: (context, snapshot) {
-        if (snapshot.connectionState ==
-            ConnectionState.waiting) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
             child: CircularProgressIndicator(
               color: AppColors.primary,
@@ -501,18 +489,16 @@ class _GoalsList extends StatelessWidget {
           );
         }
 
-        if (!snapshot.hasData ||
-            snapshot.data!.docs.isEmpty) {
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(16),
-              border:
-                  Border.all(color: AppColors.greyLighter),
+              border: Border.all(color: AppColors.greyLighter),
             ),
-            child: Column(
-              children: const [
+            child: const Column(
+              children: [
                 Icon(
                   Icons.flag_outlined,
                   color: AppColors.greyLight,
@@ -537,12 +523,9 @@ class _GoalsList extends StatelessWidget {
         return Column(
           children: snapshot.data!.docs.map((doc) {
             final data = doc.data() as Map<String, dynamic>;
-            final current =
-                (data['currentAmount'] ?? 0.0).toDouble();
-            final target =
-                (data['targetAmount'] ?? 0.0).toDouble();
-            final progress =
-                target > 0 ? current / target : 0.0;
+            final current = (data['currentAmount'] ?? 0.0).toDouble();
+            final target = (data['targetAmount'] ?? 0.0).toDouble();
+            final progress = target > 0 ? current / target : 0.0;
 
             return GestureDetector(
               onTap: () => Navigator.push(
@@ -561,16 +544,13 @@ class _GoalsList extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: AppColors.white,
                   borderRadius: BorderRadius.circular(14),
-                  border: Border.all(
-                      color: AppColors.greyLighter),
+                  border: Border.all(color: AppColors.greyLighter),
                 ),
                 child: Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Expanded(
                           child: Text(
@@ -601,15 +581,13 @@ class _GoalsList extends StatelessWidget {
                         value: progress,
                         minHeight: 6,
                         backgroundColor: AppColors.greyLighter,
-                        valueColor:
-                            const AlwaysStoppedAnimation<Color>(
-                                AppColors.primary),
+                        valueColor: const AlwaysStoppedAnimation<Color>(
+                            AppColors.primary),
                       ),
                     ),
                     const SizedBox(height: 8),
                     Row(
-                      mainAxisAlignment:
-                          MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'KES ${current.toStringAsFixed(0)}',

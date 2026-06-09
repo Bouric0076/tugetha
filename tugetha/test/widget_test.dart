@@ -5,13 +5,13 @@
 // gestures. You can also use WidgetTester to find child widgets in the widget
 // tree, read text, and verify that the values of widget properties are correct.
 
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:Tugetha/main.dart';
+import 'package:tugetha/main.dart';
 
 void main() {
-  testWidgets('App shows home screen with Tugetha title', (WidgetTester tester) async {
+  testWidgets('App shows home screen with Tugetha title',
+      (WidgetTester tester) async {
     // Build our app and trigger a frame.
     await tester.pumpWidget(const TugethaApp());
 

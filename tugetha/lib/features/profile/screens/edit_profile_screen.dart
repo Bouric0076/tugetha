@@ -146,10 +146,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         Navigator.pop(context);
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() => _isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
+        const SnackBar(
+          content: Text(
             'Failed to update profile. Try again.',
             style: TextStyle(fontFamily: 'Poppins'),
           ),
@@ -313,8 +314,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       Icons.phone_outlined,
                       color: AppColors.grey,
                     ),
-                    helperText:
-                        'Used for wallet top-ups and withdrawals',
+                    helperText: 'Used for wallet top-ups and withdrawals',
                     helperStyle: TextStyle(
                       fontFamily: 'Poppins',
                       fontSize: 12,
@@ -427,10 +427,10 @@ class _ImageOption extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.08),
+          color: color.withValues(alpha: 0.08),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: color.withOpacity(0.2),
+            color: color.withValues(alpha: 0.2),
           ),
         ),
         child: Column(

@@ -23,7 +23,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
 
   void _onWithdraw() async {
     if (!_formKey.currentState!.validate()) return;
-    
+
     final amount = double.parse(_amountController.text.trim());
     final total = amount + _withdrawalFee;
 
@@ -43,8 +43,9 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
       final user = AuthService.currentUser;
       if (user == null) return;
 
-      final targetPhone = _useRegistered ? user.phoneNumber : _phoneController.text.trim();
-      
+      final targetPhone =
+          _useRegistered ? user.phoneNumber : _phoneController.text.trim();
+
       if (targetPhone == null || targetPhone.isEmpty) {
         throw Exception('Target phone number not provided.');
       }
@@ -89,8 +90,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
         padding: const EdgeInsets.all(32),
         decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -242,8 +242,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                   decoration: const InputDecoration(
                     hintText: '0',
                     prefixIcon: Padding(
-                      padding:
-                          EdgeInsets.only(left: 16, right: 8),
+                      padding: EdgeInsets.only(left: 16, right: 8),
                       child: Text(
                         'KES',
                         style: TextStyle(
@@ -254,20 +253,17 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                         ),
                       ),
                     ),
-                    prefixIconConstraints:
-                        BoxConstraints(minWidth: 0),
+                    prefixIconConstraints: BoxConstraints(minWidth: 0),
                   ),
                   validator: (val) {
                     if (val == null || val.isEmpty) {
                       return 'Please enter an amount';
                     }
-                    final amount =
-                        double.tryParse(val) ?? 0;
+                    final amount = double.tryParse(val) ?? 0;
                     if (amount < 100) {
                       return 'Minimum withdrawal is KES 100';
                     }
-                    if (amount + _withdrawalFee >
-                        widget.balance) {
+                    if (amount + _withdrawalFee > widget.balance) {
                       return 'Insufficient balance (includes KES 10 fee)';
                     }
                     return null;
@@ -301,15 +297,13 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                     _PhoneToggle(
                       label: 'My M-Pesa',
                       selected: _useRegistered,
-                      onTap: () => setState(
-                          () => _useRegistered = true),
+                      onTap: () => setState(() => _useRegistered = true),
                     ),
                     const SizedBox(width: 10),
                     _PhoneToggle(
                       label: 'Other Number',
                       selected: !_useRegistered,
-                      onTap: () => setState(
-                          () => _useRegistered = false),
+                      onTap: () => setState(() => _useRegistered = false),
                     ),
                   ],
                 ),
@@ -320,8 +314,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                     decoration: BoxDecoration(
                       color: AppColors.white,
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                          color: AppColors.greyLighter),
+                      border: Border.all(color: AppColors.greyLighter),
                     ),
                     child: Row(
                       children: [
@@ -332,9 +325,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                         ),
                         const SizedBox(width: 10),
                         Text(
-                          AuthService.currentUser
-                                  ?.phoneNumber ??
-                              '',
+                          AuthService.currentUser?.phoneNumber ?? '',
                           style: const TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
@@ -431,14 +422,10 @@ class _PhoneToggle extends StatelessWidget {
           vertical: 10,
         ),
         decoration: BoxDecoration(
-          color: selected
-              ? AppColors.primary
-              : AppColors.white,
+          color: selected ? AppColors.primary : AppColors.white,
           borderRadius: BorderRadius.circular(10),
           border: Border.all(
-            color: selected
-                ? AppColors.primary
-                : AppColors.greyLight,
+            color: selected ? AppColors.primary : AppColors.greyLight,
           ),
         ),
         child: Text(
@@ -447,8 +434,7 @@ class _PhoneToggle extends StatelessWidget {
             fontSize: 13,
             fontFamily: 'Poppins',
             fontWeight: FontWeight.w500,
-            color:
-                selected ? Colors.white : AppColors.grey,
+            color: selected ? Colors.white : AppColors.grey,
           ),
         ),
       ),

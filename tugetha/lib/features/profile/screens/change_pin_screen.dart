@@ -22,7 +22,18 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
   static const String _savedPin = '123456';
 
   final List<String> _keys = [
-    '1','2','3','4','5','6','7','8','9','','0','⌫'
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '',
+    '0',
+    '⌫'
   ];
 
   String get _activePin {
@@ -67,8 +78,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
         switch (_step) {
           case _PinStep.current:
             if (_currentPin.isNotEmpty) {
-              _currentPin =
-                  _currentPin.substring(0, _currentPin.length - 1);
+              _currentPin = _currentPin.substring(0, _currentPin.length - 1);
             }
             break;
           case _PinStep.newPin:
@@ -78,8 +88,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
             break;
           case _PinStep.confirm:
             if (_confirmPin.isNotEmpty) {
-              _confirmPin =
-                  _confirmPin.substring(0, _confirmPin.length - 1);
+              _confirmPin = _confirmPin.substring(0, _confirmPin.length - 1);
             }
             break;
         }
@@ -106,8 +115,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
         case _PinStep.confirm:
           if (_confirmPin.length < 6) _confirmPin += key;
           if (_confirmPin.length == 6) {
-            Future.delayed(
-                const Duration(milliseconds: 300), _validateNew);
+            Future.delayed(const Duration(milliseconds: 300), _validateNew);
           }
           break;
       }
@@ -149,8 +157,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
         padding: const EdgeInsets.all(32),
         decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -220,9 +227,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
             color: filled
                 ? (_hasError ? AppColors.error : AppColors.primary)
                 : AppColors.greyLight,
-            border: filled
-                ? null
-                : Border.all(color: AppColors.greyLight),
+            border: filled ? null : Border.all(color: AppColors.greyLight),
           ),
         );
       }),
@@ -248,8 +253,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                 borderRadius: BorderRadius.circular(4),
               ),
             ),
-            if (step != _PinStep.confirm)
-              const SizedBox(width: 6),
+            if (step != _PinStep.confirm) const SizedBox(width: 6),
           ],
         );
       }).toList(),
@@ -293,8 +297,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                 _hasError
                     ? Icons.lock_open_outlined
                     : Icons.lock_outline_rounded,
-                color:
-                    _hasError ? AppColors.error : AppColors.primary,
+                color: _hasError ? AppColors.error : AppColors.primary,
                 size: 32,
               ),
             ),
@@ -349,8 +352,7 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
                 itemCount: _keys.length,
-                gridDelegate:
-                    const SliverGridDelegateWithFixedCrossAxisCount(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 3,
                   childAspectRatio: 1.4,
                   mainAxisSpacing: 8,
@@ -365,16 +367,14 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                     borderRadius: BorderRadius.circular(50),
                     child: Container(
                       decoration: BoxDecoration(
-                        color: isBackspace
-                            ? Colors.transparent
-                            : AppColors.white,
+                        color:
+                            isBackspace ? Colors.transparent : AppColors.white,
                         shape: BoxShape.circle,
                         boxShadow: isBackspace
                             ? null
                             : [
                                 BoxShadow(
-                                  color:
-                                      Colors.black.withOpacity(0.05),
+                                  color: Colors.black.withValues(alpha: 0.05),
                                   blurRadius: 4,
                                   offset: const Offset(0, 2),
                                 )
@@ -386,9 +386,8 @@ class _ChangePinScreenState extends State<ChangePinScreen> {
                           style: TextStyle(
                             fontSize: isBackspace ? 22 : 24,
                             fontWeight: FontWeight.w600,
-                            color: isBackspace
-                                ? AppColors.grey
-                                : AppColors.dark,
+                            color:
+                                isBackspace ? AppColors.grey : AppColors.dark,
                             fontFamily: 'Poppins',
                           ),
                         ),

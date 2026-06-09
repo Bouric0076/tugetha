@@ -28,9 +28,9 @@ class HomeTab extends ConsumerWidget {
 
   String _formatBalance(double balance) {
     return balance.toStringAsFixed(2).replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (m) => '${m[1]},',
-    );
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (m) => '${m[1]},',
+        );
   }
 
   void _showComingSoon(BuildContext context) {
@@ -41,8 +41,7 @@ class HomeTab extends ConsumerWidget {
         padding: const EdgeInsets.all(32),
         decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -134,188 +133,181 @@ class HomeTab extends ConsumerWidget {
                 ref.invalidate(walletBalanceProvider);
                 ref.invalidate(groupsProvider);
                 ref.invalidate(transactionsProvider);
-                return Future.delayed(
-                    const Duration(seconds: 1));
+                return Future.delayed(const Duration(seconds: 1));
               },
               child: SingleChildScrollView(
                 physics: const AlwaysScrollableScrollPhysics(),
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 24),
+                  children: [
+                    const SizedBox(height: 24),
 
-                  // Top bar
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: [
-                      Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            '${_getGreeting()} 👋',
-                            style: const TextStyle(
-                              fontSize: 13,
-                              color: AppColors.grey,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            firstName,
-                            style: const TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.dark,
-                              fontFamily: 'Poppins',
-                            ),
-                          ),
-                        ],
-                      ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 42,
-                            height: 42,
-                            decoration: BoxDecoration(
-                              color: AppColors.white,
-                              borderRadius:
-                                  BorderRadius.circular(12),
-                              border: Border.all(
-                                color: AppColors.greyLighter,
-                              ),
-                            ),
-                            child: Stack(
-                              children: [
-                                const Center(
-                                  child: Icon(
-                                    Icons.notifications_outlined,
-                                    color: AppColors.dark,
-                                    size: 22,
-                                  ),
-                                ),
-                                Positioned(
-                                  top: 8,
-                                  right: 8,
-                                  child: Container(
-                                    width: 8,
-                                    height: 8,
-                                    decoration: const BoxDecoration(
-                                      color: AppColors.error,
-                                      shape: BoxShape.circle,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          CircleAvatar(
-                            radius: 21,
-                            backgroundColor:
-                                AppColors.primaryLighter,
-                            child: Text(
-                              name.isNotEmpty
-                                  ? name
-                                      .split(' ')
-                                      .map((e) => e[0])
-                                      .take(2)
-                                      .join()
-                                      .toUpperCase()
-                                  : 'U',
+                    // Top bar
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '${_getGreeting()} 👋',
                               style: const TextStyle(
                                 fontSize: 13,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.primary,
+                                color: AppColors.grey,
                                 fontFamily: 'Poppins',
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Wallet card
-                  _WalletCard(
-                    balance: balance,
-                    formatBalance: _formatBalance,
-                    showComingSoon: _showComingSoon,
-                  ),
-                  const SizedBox(height: 28),
-
-                  // Quick actions
-                  const Text(
-                    'Quick Actions',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.dark,
-                      fontFamily: 'Poppins',
+                            const SizedBox(height: 2),
+                            Text(
+                              firstName,
+                              style: const TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w700,
+                                color: AppColors.dark,
+                                fontFamily: 'Poppins',
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: [
+                            Container(
+                              width: 42,
+                              height: 42,
+                              decoration: BoxDecoration(
+                                color: AppColors.white,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color: AppColors.greyLighter,
+                                ),
+                              ),
+                              child: Stack(
+                                children: [
+                                  const Center(
+                                    child: Icon(
+                                      Icons.notifications_outlined,
+                                      color: AppColors.dark,
+                                      size: 22,
+                                    ),
+                                  ),
+                                  Positioned(
+                                    top: 8,
+                                    right: 8,
+                                    child: Container(
+                                      width: 8,
+                                      height: 8,
+                                      decoration: const BoxDecoration(
+                                        color: AppColors.error,
+                                        shape: BoxShape.circle,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            CircleAvatar(
+                              radius: 21,
+                              backgroundColor: AppColors.primaryLighter,
+                              child: Text(
+                                name.isNotEmpty
+                                    ? name
+                                        .split(' ')
+                                        .map((e) => e[0])
+                                        .take(2)
+                                        .join()
+                                        .toUpperCase()
+                                    : 'U',
+                                style: const TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.primary,
+                                  fontFamily: 'Poppins',
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  _QuickActions(
-                    balance: balance,
-                    showComingSoon: _showComingSoon,
-                  ),
-                  const SizedBox(height: 28),
+                    const SizedBox(height: 24),
 
-                  // Active goals
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Active Goals',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.dark,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text('See all'),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  _ActiveGoals(),
-                  const SizedBox(height: 28),
+                    // Wallet card
+                    _WalletCard(
+                      balance: balance,
+                      formatBalance: _formatBalance,
+                      showComingSoon: _showComingSoon,
+                    ),
+                    const SizedBox(height: 28),
 
-                  // Recent activity
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Recent Activity',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: AppColors.dark,
-                          fontFamily: 'Poppins',
+                    // Quick actions
+                    const Text(
+                      'Quick Actions',
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.dark,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    _QuickActions(
+                      balance: balance,
+                      showComingSoon: _showComingSoon,
+                    ),
+                    const SizedBox(height: 28),
+
+                    // Active goals
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Active Goals',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.dark,
+                            fontFamily: 'Poppins',
+                          ),
                         ),
-                      ),
-                      TextButton(
-                        onPressed: () {},
-                        child: const Text('See all'),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  _RecentActivity(),
-                  const SizedBox(height: 32),
-                ],
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text('See all'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    _ActiveGoals(),
+                    const SizedBox(height: 28),
+
+                    // Recent activity
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Recent Activity',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.dark,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: () {},
+                          child: const Text('See all'),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    _RecentActivity(),
+                    const SizedBox(height: 32),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
         );
       },
     );
@@ -466,8 +458,7 @@ class _WalletCardState extends State<_WalletCard> {
                 ),
               ),
               GestureDetector(
-                onTap: () => setState(
-                    () => _balanceVisible = !_balanceVisible),
+                onTap: () => setState(() => _balanceVisible = !_balanceVisible),
                 child: Icon(
                   _balanceVisible
                       ? Icons.visibility_outlined
@@ -618,9 +609,7 @@ class _QuickActions extends StatelessWidget {
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: actions
-          .map((a) => _ActionButton(data: a))
-          .toList(),
+      children: actions.map((a) => _ActionButton(data: a)).toList(),
     );
   }
 }
@@ -704,7 +693,8 @@ class _ActiveGoals extends ConsumerWidget {
           return _EmptyStateCard(
             icon: Icons.flag_outlined,
             title: 'No active goals yet',
-            description: 'Create a group and set a goal to start saving with your friends.',
+            description:
+                'Create a group and set a goal to start saving with your friends.',
             buttonLabel: 'Create New Goal',
             onButtonPressed: () => Navigator.push(
               context,
@@ -719,12 +709,10 @@ class _ActiveGoals extends ConsumerWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: _GoalCard(
-                title:
-                    '${data['emoji'] ?? '🎯'} ${data['name']}',
+                title: '${data['emoji'] ?? '🎯'} ${data['name']}',
                 current: 0,
                 target: 0,
-                members:
-                    (data['members'] as List?)?.length ?? 1,
+                members: (data['members'] as List?)?.length ?? 1,
                 color: AppColors.primary,
               ),
             );
@@ -804,8 +792,7 @@ class _GoalCard extends StatelessWidget {
               value: progress,
               minHeight: 6,
               backgroundColor: AppColors.greyLighter,
-              valueColor:
-                  AlwaysStoppedAnimation<Color>(color),
+              valueColor: AlwaysStoppedAnimation<Color>(color),
             ),
           ),
           const SizedBox(height: 8),
@@ -861,7 +848,8 @@ class _RecentActivity extends ConsumerWidget {
           return _EmptyStateCard(
             icon: Icons.receipt_long_outlined,
             title: 'No transactions yet',
-            description: 'Top up your wallet or send money to see your activity here.',
+            description:
+                'Top up your wallet or send money to see your activity here.',
             buttonLabel: 'Top Up Wallet',
             onButtonPressed: () => Navigator.push(
               context,
@@ -874,29 +862,22 @@ class _RecentActivity extends ConsumerWidget {
           children: snapshot.docs.take(3).map((doc) {
             final data = doc.data() as Map<String, dynamic>;
             final type = data['type'] ?? '';
-            final amount =
-                (data['amount'] ?? 0.0).toDouble();
+            final amount = (data['amount'] ?? 0.0).toDouble();
             final isCredit = amount > 0;
 
             return _ActivityItem(
               icon: isCredit
                   ? Icons.arrow_downward_rounded
                   : Icons.arrow_upward_rounded,
-              iconColor: isCredit
-                  ? AppColors.success
-                  : AppColors.error,
-              iconBg: isCredit
-                  ? AppColors.accentLighter
-                  : const Color(0xFFFCEBEB),
+              iconColor: isCredit ? AppColors.success : AppColors.error,
+              iconBg:
+                  isCredit ? AppColors.accentLighter : const Color(0xFFFCEBEB),
               title: type,
               subtitle: data['description'] ?? '',
               amount:
                   '${isCredit ? '+' : ''}KES ${amount.abs().toStringAsFixed(0)}',
-              amountColor: isCredit
-                  ? AppColors.success
-                  : AppColors.error,
-              time: _formatTime(
-                  data['createdAt'] as Timestamp?),
+              amountColor: isCredit ? AppColors.success : AppColors.error,
+              time: _formatTime(data['createdAt'] as Timestamp?),
             );
           }).toList(),
         );

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../core/constants/app_colors.dart';
@@ -20,6 +22,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
   late AnimationController _controller;
   late Animation<double> _fadeAnim;
   late Animation<double> _scaleAnim;
+  Timer? _navigationTimer;
 
   @override
   void initState() {
@@ -32,13 +35,12 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
       CurvedAnimation(parent: _controller, curve: Curves.easeIn),
     );
     _scaleAnim = Tween<double>(begin: 0.8, end: 1).animate(
-      CurvedAnimation(
-          parent: _controller, curve: Curves.easeOutBack),
+      CurvedAnimation(parent: _controller, curve: Curves.easeOutBack),
     );
     _controller.forward();
 
     // Navigate after animation
-    Future.delayed(const Duration(seconds: 3), _navigate);
+    _navigationTimer = Timer(const Duration(seconds: 3), _navigate);
   }
 
   Future<void> _navigate() async {
@@ -81,6 +83,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
   @override
   void dispose() {
+    _navigationTimer?.cancel();
     _controller.dispose();
     super.dispose();
   }
@@ -101,17 +104,16 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   width: 100,
                   height: 100,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.15),
+                    color: Colors.white.withValues(alpha: 0.15),
                     shape: BoxShape.circle,
                   ),
-                  child: const Center(
-                    child: Text(
-                      'T',
-                      style: TextStyle(
-                        fontSize: 52,
-                        fontWeight: FontWeight.w700,
-                        color: Colors.white,
-                        fontFamily: 'Poppins',
+                  child: Center(
+                    child: ClipOval(
+                      child: Image.asset(
+                        'assets/icons/app_icon.png',
+                        width: 78,
+                        height: 78,
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -133,7 +135,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontSize: 13,
-                    color: Colors.white.withOpacity(0.75),
+                    color: Colors.white.withValues(alpha: 0.75),
                     fontFamily: 'Poppins',
                   ),
                 ),
@@ -143,7 +145,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   height: 28,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    color: Colors.white.withOpacity(0.6),
+                    color: Colors.white.withValues(alpha: 0.6),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -151,7 +153,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
                   AppStrings.by,
                   style: TextStyle(
                     fontSize: 11,
-                    color: Colors.white.withOpacity(0.5),
+                    color: Colors.white.withValues(alpha: 0.5),
                     fontFamily: 'Poppins',
                   ),
                 ),

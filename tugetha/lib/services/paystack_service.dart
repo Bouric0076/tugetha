@@ -36,7 +36,7 @@ class PaystackService {
       if (response.statusCode == 200 && data['success'] == true) {
         return {'reference': data['reference']};
       }
-      
+
       throw Exception(data['error'] ?? 'Failed to initialize payment');
     } catch (e) {
       debugPrint('Paystack Initialization Error: $e');
@@ -113,7 +113,7 @@ class PaystackService {
     while (!isVerified && attempts < maxAttempts) {
       await Future.delayed(const Duration(seconds: 4));
       final status = await verifyPayment(reference);
-      
+
       if (status == 'success' || status == 'already_processed') {
         isVerified = true;
         if (context.mounted) Navigator.pop(context);

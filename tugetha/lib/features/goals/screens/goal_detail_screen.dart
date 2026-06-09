@@ -34,19 +34,14 @@ class GoalDetailScreen extends StatelessWidget {
             : data;
 
         final title = goalData['title'] ?? 'Goal';
-        final current =
-            (goalData['currentAmount'] ?? 0.0).toDouble();
-        final target =
-            (goalData['targetAmount'] ?? 0.0).toDouble();
-        final progress =
-            target > 0 ? (current / target).clamp(0.0, 1.0) : 0.0;
+        final current = (goalData['currentAmount'] ?? 0.0).toDouble();
+        final target = (goalData['targetAmount'] ?? 0.0).toDouble();
+        final progress = target > 0 ? (current / target).clamp(0.0, 1.0) : 0.0;
         final pct = (progress * 100).toStringAsFixed(0);
         final deadline = goalData['deadline'] != null
             ? (goalData['deadline'] as Timestamp).toDate()
             : null;
-        final daysLeft = deadline != null
-            ? deadline.difference(DateTime.now()).inDays
-            : null;
+        final daysLeft = deadline?.difference(DateTime.now()).inDays;
 
         return Scaffold(
           backgroundColor: AppColors.background,
@@ -77,17 +72,12 @@ class GoalDetailScreen extends StatelessWidget {
                       ),
                     ),
                     child: Column(
-                      mainAxisAlignment:
-                          MainAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         const SizedBox(height: 40),
                         Text(
-                          goalData['category']
-                                  ?.split(' ')
-                                  .first ??
-                              '🎯',
-                          style: const TextStyle(
-                              fontSize: 48),
+                          goalData['category']?.split(' ').first ?? '🎯',
+                          style: const TextStyle(fontSize: 48),
                         ),
                         const SizedBox(height: 8),
                         Text(
@@ -112,37 +102,30 @@ class GoalDetailScreen extends StatelessWidget {
                   ),
                 ),
               ),
-
               SliverToBoxAdapter(
                 child: Padding(
                   padding: const EdgeInsets.all(24),
                   child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Progress card
                       Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: AppColors.white,
-                          borderRadius:
-                              BorderRadius.circular(16),
-                          border: Border.all(
-                              color: AppColors.greyLighter),
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: AppColors.greyLighter),
                         ),
                         child: Column(
                           children: [
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment
-                                      .spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(
                                   'KES ${current.toStringAsFixed(0)}',
                                   style: const TextStyle(
                                     fontSize: 28,
-                                    fontWeight:
-                                        FontWeight.w700,
+                                    fontWeight: FontWeight.w700,
                                     color: AppColors.primary,
                                     fontFamily: 'Poppins',
                                   ),
@@ -151,8 +134,7 @@ class GoalDetailScreen extends StatelessWidget {
                                   '$pct%',
                                   style: const TextStyle(
                                     fontSize: 28,
-                                    fontWeight:
-                                        FontWeight.w700,
+                                    fontWeight: FontWeight.w700,
                                     color: AppColors.accent,
                                     fontFamily: 'Poppins',
                                   ),
@@ -160,9 +142,7 @@ class GoalDetailScreen extends StatelessWidget {
                               ],
                             ),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment
-                                      .spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 const Text(
                                   'raised so far',
@@ -184,24 +164,19 @@ class GoalDetailScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 16),
                             ClipRRect(
-                              borderRadius:
-                                  BorderRadius.circular(6),
+                              borderRadius: BorderRadius.circular(6),
                               child: LinearProgressIndicator(
                                 value: progress,
                                 minHeight: 10,
-                                backgroundColor:
-                                    AppColors.greyLighter,
-                                valueColor:
-                                    const AlwaysStoppedAnimation<Color>(
+                                backgroundColor: AppColors.greyLighter,
+                                valueColor: const AlwaysStoppedAnimation<Color>(
                                   AppColors.primary,
                                 ),
                               ),
                             ),
                             const SizedBox(height: 16),
                             Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment
-                                      .spaceAround,
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 _GoalStat(
                                   label: 'Remaining',
@@ -214,14 +189,12 @@ class GoalDetailScreen extends StatelessWidget {
                                   value: deadline != null
                                       ? '${deadline.day}/${deadline.month}/${deadline.year}'
                                       : '—',
-                                  icon: Icons
-                                      .calendar_today_outlined,
+                                  icon: Icons.calendar_today_outlined,
                                 ),
                                 _GoalStat(
                                   label: 'Days left',
-                                  value: daysLeft != null
-                                      ? '$daysLeft days'
-                                      : '—',
+                                  value:
+                                      daysLeft != null ? '$daysLeft days' : '—',
                                   icon: Icons.timer_outlined,
                                 ),
                               ],
@@ -234,8 +207,7 @@ class GoalDetailScreen extends StatelessWidget {
                       // Contribute button
                       ElevatedButton.icon(
                         onPressed: () =>
-                            _showContributeSheet(
-                                context, groupId, goalId),
+                            _showContributeSheet(context, groupId, goalId),
                         icon: const Icon(Icons.add_rounded),
                         label: const Text('Contribute Now'),
                       ),
@@ -329,8 +301,7 @@ class GoalDetailScreen extends StatelessWidget {
                 decoration: const InputDecoration(
                   hintText: '0',
                   prefixIcon: Padding(
-                    padding:
-                        EdgeInsets.only(left: 16, right: 8),
+                    padding: EdgeInsets.only(left: 16, right: 8),
                     child: Text(
                       'KES',
                       style: TextStyle(
@@ -341,45 +312,43 @@ class GoalDetailScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  prefixIconConstraints:
-                      BoxConstraints(minWidth: 0),
+                  prefixIconConstraints: BoxConstraints(minWidth: 0),
                 ),
               ),
               const SizedBox(height: 16),
               Wrap(
                 spacing: 8,
-                children: [100, 500, 1000, 2000].map((a) =>
-                  GestureDetector(
-                    onTap: () =>
-                        controller.text = a.toString(),
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 14,
-                        vertical: 8,
-                      ),
-                      decoration: BoxDecoration(
-                        color: AppColors.primaryLighter,
-                        borderRadius:
-                            BorderRadius.circular(8),
-                      ),
-                      child: Text(
-                        'KES $a',
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                          color: AppColors.primary,
-                          fontFamily: 'Poppins',
+                children: [100, 500, 1000, 2000]
+                    .map(
+                      (a) => GestureDetector(
+                        onTap: () => controller.text = a.toString(),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 8,
+                          ),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryLighter,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            'KES $a',
+                            style: const TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.primary,
+                              fontFamily: 'Poppins',
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ).toList(),
+                    )
+                    .toList(),
               ),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () async {
-                  final amount =
-                      double.tryParse(controller.text);
+                  final amount = double.tryParse(controller.text);
                   if (amount == null || amount <= 0) return;
 
                   final user = AuthService.currentUser;
@@ -394,14 +363,15 @@ class GoalDetailScreen extends StatelessWidget {
                     );
 
                     if (result['success'] != true) {
-                      throw Exception(result['message'] ?? 'Failed to initialize contribution');
+                      throw Exception(result['message'] ??
+                          'Failed to initialize contribution');
                     }
 
                     final reference = result['reference'];
 
                     if (context.mounted) {
                       Navigator.pop(context); // Close amount sheet
-                      
+
                       // 2. Wait for STK Push and verification
                       await PaystackService.waitForStkPush(
                         context: context,
@@ -424,7 +394,8 @@ class GoalDetailScreen extends StatelessWidget {
                           } else {
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Contribution verification failed or timed out.'),
+                                content: Text(
+                                    'Contribution verification failed or timed out.'),
                                 backgroundColor: AppColors.error,
                               ),
                             );
@@ -519,15 +490,13 @@ class _ContributionsList extends StatelessWidget {
           .orderBy('createdAt', descending: true)
           .snapshots(),
       builder: (context, snapshot) {
-        if (!snapshot.hasData ||
-            snapshot.data!.docs.isEmpty) {
+        if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
           return Container(
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: AppColors.white,
               borderRadius: BorderRadius.circular(14),
-              border:
-                  Border.all(color: AppColors.greyLighter),
+              border: Border.all(color: AppColors.greyLighter),
             ),
             child: const Center(
               child: Text(
@@ -547,17 +516,14 @@ class _ContributionsList extends StatelessWidget {
         return Column(
           children: snapshot.data!.docs.map((doc) {
             final d = doc.data() as Map<String, dynamic>;
-            final amount =
-                (d['amount'] ?? 0.0).toDouble();
+            final amount = (d['amount'] ?? 0.0).toDouble();
             final userId = d['userId'] ?? '';
-            final isMe =
-                userId == AuthService.currentUser?.uid;
+            final isMe = userId == AuthService.currentUser?.uid;
 
             return FutureBuilder<Map<String, dynamic>?>(
               future: FirestoreService.getUser(userId),
               builder: (context, userSnapshot) {
-                final name =
-                    userSnapshot.data?['name'] ?? 'User';
+                final name = userSnapshot.data?['name'] ?? 'User';
                 final initials = name
                     .split(' ')
                     .map((e) => e.isNotEmpty ? e[0] : '')
@@ -565,11 +531,8 @@ class _ContributionsList extends StatelessWidget {
                     .join()
                     .toUpperCase();
 
-                final timestamp =
-                    d['createdAt'] as Timestamp?;
-                final time = timestamp != null
-                    ? _formatTime(timestamp)
-                    : '';
+                final timestamp = d['createdAt'] as Timestamp?;
+                final time = timestamp != null ? _formatTime(timestamp) : '';
 
                 return Container(
                   margin: const EdgeInsets.only(bottom: 10),
@@ -577,24 +540,20 @@ class _ContributionsList extends StatelessWidget {
                   decoration: BoxDecoration(
                     color: AppColors.white,
                     borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                        color: AppColors.greyLighter),
+                    border: Border.all(color: AppColors.greyLighter),
                   ),
                   child: Row(
                     children: [
                       CircleAvatar(
                         radius: 20,
-                        backgroundColor: isMe
-                            ? AppColors.primary
-                            : AppColors.primaryLighter,
+                        backgroundColor:
+                            isMe ? AppColors.primary : AppColors.primaryLighter,
                         child: Text(
                           initials,
                           style: TextStyle(
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
-                            color: isMe
-                                ? Colors.white
-                                : AppColors.primary,
+                            color: isMe ? Colors.white : AppColors.primary,
                             fontFamily: 'Poppins',
                           ),
                         ),
@@ -612,8 +571,7 @@ class _ContributionsList extends StatelessWidget {
                         ),
                       ),
                       Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.end,
+                        crossAxisAlignment: CrossAxisAlignment.end,
                         children: [
                           Text(
                             'KES ${amount.toStringAsFixed(0)}',

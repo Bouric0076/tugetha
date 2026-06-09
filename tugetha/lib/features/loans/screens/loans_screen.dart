@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/providers/app_providers.dart';
-import '../../../services/auth_service.dart';
 import 'request_loan_screen.dart';
 import 'loan_detail_screen.dart';
 
@@ -11,8 +10,7 @@ class LoansScreen extends ConsumerStatefulWidget {
   const LoansScreen({super.key});
 
   @override
-  ConsumerState<LoansScreen> createState() =>
-      _LoansScreenState();
+  ConsumerState<LoansScreen> createState() => _LoansScreenState();
 }
 
 class _LoansScreenState extends ConsumerState<LoansScreen>
@@ -43,11 +41,9 @@ class _LoansScreenState extends ConsumerState<LoansScreen>
           children: [
             // Header
             Padding(
-              padding:
-                  const EdgeInsets.fromLTRB(24, 24, 24, 0),
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
               child: Row(
-                mainAxisAlignment:
-                    MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
                     'Loans',
@@ -62,20 +58,17 @@ class _LoansScreenState extends ConsumerState<LoansScreen>
                     onPressed: () => Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) =>
-                            const RequestLoanScreen(),
+                        builder: (_) => const RequestLoanScreen(),
                       ),
                     ).then((_) {
                       ref.invalidate(borrowingLoansProvider);
                       ref.invalidate(lendingLoansProvider);
                     }),
-                    icon: const Icon(Icons.add_rounded,
-                        size: 18),
+                    icon: const Icon(Icons.add_rounded, size: 18),
                     label: const Text('Request'),
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(0, 40),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 16),
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
                       textStyle: const TextStyle(
                         fontFamily: 'Poppins',
                         fontWeight: FontWeight.w600,
@@ -90,8 +83,7 @@ class _LoansScreenState extends ConsumerState<LoansScreen>
 
             // Summary
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: _LoanSummary(
                 borrowingAsync: borrowingAsync,
                 lendingAsync: lendingAsync,
@@ -101,8 +93,7 @@ class _LoansScreenState extends ConsumerState<LoansScreen>
 
             // Tabs
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Container(
                 height: 44,
                 decoration: BoxDecoration(
@@ -152,8 +143,7 @@ class _LoansScreenState extends ConsumerState<LoansScreen>
                   _LoanList(
                     loansAsync: lendingAsync,
                     isBorrowing: false,
-                    emptyMessage:
-                        'You haven\'t lent to anyone yet.',
+                    emptyMessage: 'You haven\'t lent to anyone yet.',
                   ),
                 ],
               ),
@@ -183,8 +173,7 @@ class _LoanSummary extends StatelessWidget {
         for (final doc in snapshot.docs) {
           final data = doc.data() as Map<String, dynamic>;
           if (data['status'] == 'active') {
-            total +=
-                (data['remaining'] ?? 0.0).toDouble();
+            total += (data['remaining'] ?? 0.0).toDouble();
           }
         }
         return total;
@@ -309,11 +298,11 @@ class _LoanList extends StatelessWidget {
           color: AppColors.primary,
         ),
       ),
-      error: (_, __) => Center(
+      error: (_, __) => const Center(
         child: Text(
           'Error loading loans.\nPlease try again.',
           textAlign: TextAlign.center,
-          style: const TextStyle(
+          style: TextStyle(
             fontFamily: 'Poppins',
             color: AppColors.grey,
           ),
@@ -330,7 +319,7 @@ class _LoanList extends StatelessWidget {
                   Container(
                     width: 80,
                     height: 80,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       color: AppColors.primaryLighter,
                       shape: BoxShape.circle,
                     ),
@@ -360,8 +349,7 @@ class _LoanList extends StatelessWidget {
         return ListView.separated(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           itemCount: snapshot.docs.length,
-          separatorBuilder: (_, __) =>
-              const SizedBox(height: 12),
+          separatorBuilder: (_, __) => const SizedBox(height: 12),
           itemBuilder: (context, i) {
             final doc = snapshot.docs[i];
             final data = doc.data() as Map<String, dynamic>;
@@ -419,10 +407,8 @@ class _LoanCardState extends State<_LoanCard> {
         ? widget.data['lenderId']
         : widget.data['borrowerId'];
     if (uid == null) return;
-    final userData = await FirebaseFirestore.instance
-        .collection('users')
-        .doc(uid)
-        .get();
+    final userData =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
     if (mounted && userData.exists) {
       setState(() {
         _otherName = userData.data()?['name'] ?? 'User';
@@ -432,14 +418,11 @@ class _LoanCardState extends State<_LoanCard> {
 
   @override
   Widget build(BuildContext context) {
-    final amount =
-        (widget.data['amount'] ?? 0.0).toDouble();
-    final remaining =
-        (widget.data['remaining'] ?? 0.0).toDouble();
+    final amount = (widget.data['amount'] ?? 0.0).toDouble();
+    final remaining = (widget.data['remaining'] ?? 0.0).toDouble();
     final status = widget.data['status'] ?? 'pending';
-    final progress = amount > 0
-        ? ((amount - remaining) / amount).clamp(0.0, 1.0)
-        : 0.0;
+    final progress =
+        amount > 0 ? ((amount - remaining) / amount).clamp(0.0, 1.0) : 0.0;
     final isCompleted = status == 'completed';
     final isPending = status == 'pending';
 
@@ -498,8 +481,7 @@ class _LoanCardState extends State<_LoanCard> {
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
-                    crossAxisAlignment:
-                        CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         widget.isBorrowing
@@ -553,26 +535,20 @@ class _LoanCardState extends State<_LoanCard> {
                   minHeight: 6,
                   backgroundColor: AppColors.greyLighter,
                   valueColor: AlwaysStoppedAnimation<Color>(
-                    widget.isBorrowing
-                        ? AppColors.error
-                        : AppColors.success,
+                    widget.isBorrowing ? AppColors.error : AppColors.success,
                   ),
                 ),
               ),
             ],
             const SizedBox(height: 10),
             Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Column(
-                  crossAxisAlignment:
-                      CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      isCompleted
-                          ? 'Total amount'
-                          : 'Remaining',
+                      isCompleted ? 'Total amount' : 'Remaining',
                       style: const TextStyle(
                         fontSize: 11,
                         color: AppColors.grey,

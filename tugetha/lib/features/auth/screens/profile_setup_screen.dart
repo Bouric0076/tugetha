@@ -57,7 +57,8 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
       );
 
       if (subaccountResult['success'] != true) {
-        throw Exception(subaccountResult['message'] ?? 'Failed to setup financial account');
+        throw Exception(
+            subaccountResult['message'] ?? 'Failed to setup financial account');
       }
 
       if (mounted) {
@@ -68,10 +69,11 @@ class _ProfileSetupScreenState extends State<ProfileSetupScreen> {
         );
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() => _isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text(
+        const SnackBar(
+          content: Text(
             'Error saving profile. Please try again.',
             style: TextStyle(fontFamily: 'Poppins'),
           ),

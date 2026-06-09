@@ -7,8 +7,7 @@ class CreateGroupScreen extends StatefulWidget {
   const CreateGroupScreen({super.key});
 
   @override
-  State<CreateGroupScreen> createState() =>
-      _CreateGroupScreenState();
+  State<CreateGroupScreen> createState() => _CreateGroupScreenState();
 }
 
 class _CreateGroupScreenState extends State<CreateGroupScreen> {
@@ -18,8 +17,18 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
   bool _isLoading = false;
 
   final _emojis = [
-    '🤝','🔥','💼','👨‍👩‍👧‍👦','🎯','🏖️',
-    '🎉','💪','🌍','🚀','💡','🎓',
+    '🤝',
+    '🔥',
+    '💼',
+    '👨‍👩‍👧‍👦',
+    '🎯',
+    '🏖️',
+    '🎉',
+    '💪',
+    '🌍',
+    '🚀',
+    '💡',
+    '🎓',
   ];
 
   void _onCreate() async {
@@ -42,7 +51,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              '${_selectedEmoji} ${_nameController.text} created!',
+              '$_selectedEmoji ${_nameController.text} created!',
               style: const TextStyle(fontFamily: 'Poppins'),
             ),
             backgroundColor: AppColors.success,
@@ -54,12 +63,13 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
         );
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() => _isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             'Failed to create group. Try again.',
-            style: const TextStyle(fontFamily: 'Poppins'),
+            style: TextStyle(fontFamily: 'Poppins'),
           ),
           backgroundColor: AppColors.error,
         ),
@@ -104,8 +114,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                         height: 80,
                         decoration: BoxDecoration(
                           color: AppColors.primaryLighter,
-                          borderRadius:
-                              BorderRadius.circular(24),
+                          borderRadius: BorderRadius.circular(24),
                         ),
                         child: Center(
                           child: Text(
@@ -133,31 +142,25 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                 // Emoji grid
                 GridView.builder(
                   shrinkWrap: true,
-                  physics:
-                      const NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: _emojis.length,
-                  gridDelegate:
-                      const SliverGridDelegateWithFixedCrossAxisCount(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 6,
                     childAspectRatio: 1,
                     mainAxisSpacing: 8,
                     crossAxisSpacing: 8,
                   ),
                   itemBuilder: (context, i) {
-                    final isSelected =
-                        _emojis[i] == _selectedEmoji;
+                    final isSelected = _emojis[i] == _selectedEmoji;
                     return GestureDetector(
-                      onTap: () => setState(
-                          () => _selectedEmoji = _emojis[i]),
+                      onTap: () => setState(() => _selectedEmoji = _emojis[i]),
                       child: AnimatedContainer(
-                        duration:
-                            const Duration(milliseconds: 200),
+                        duration: const Duration(milliseconds: 200),
                         decoration: BoxDecoration(
                           color: isSelected
                               ? AppColors.primaryLighter
                               : AppColors.white,
-                          borderRadius:
-                              BorderRadius.circular(12),
+                          borderRadius: BorderRadius.circular(12),
                           border: Border.all(
                             color: isSelected
                                 ? AppColors.primary
@@ -224,8 +227,8 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
                     color: AppColors.primaryLighter,
                     borderRadius: BorderRadius.circular(14),
                   ),
-                  child: Row(
-                    children: const [
+                  child: const Row(
+                    children: [
                       Icon(
                         Icons.info_outline_rounded,
                         color: AppColors.primary,

@@ -162,7 +162,7 @@ class _OnboardPage extends StatelessWidget {
             width: 200,
             height: 200,
             decoration: BoxDecoration(
-              color: data.color.withOpacity(0.1),
+              color: data.color.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Center(

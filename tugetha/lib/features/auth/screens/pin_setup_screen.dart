@@ -19,12 +19,23 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
   String _errorMessage = '';
 
   final List<String> _keys = [
-    '1','2','3','4','5','6','7','8','9','','0','⌫'
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '',
+    '0',
+    '⌫'
   ];
 
   void _onKeyTap(String key) {
     if (_isLoading) return;
-    
+
     setState(() {
       _hasError = false;
       _errorMessage = '';
@@ -61,11 +72,11 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
   void _verifyPins() async {
     if (_pin == _confirmPin) {
       setState(() => _isLoading = true);
-      
+
       try {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('user_pin', _pin);
-        
+
         if (mounted) {
           Navigator.pushReplacement(
             context,
@@ -107,9 +118,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
             color: filled
                 ? (_hasError ? AppColors.error : AppColors.primary)
                 : AppColors.greyLight,
-            border: filled
-                ? null
-                : Border.all(color: AppColors.greyLight),
+            border: filled ? null : Border.all(color: AppColors.greyLight),
           ),
         );
       }),
@@ -227,7 +236,8 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
                                   ? null
                                   : [
                                       BoxShadow(
-                                        color: Colors.black.withOpacity(0.05),
+                                        color: Colors.black
+                                            .withValues(alpha: 0.05),
                                         blurRadius: 4,
                                         offset: const Offset(0, 2),
                                       )

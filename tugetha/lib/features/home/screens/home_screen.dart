@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
           color: AppColors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.06),
+              color: Colors.black.withValues(alpha: 0.06),
               blurRadius: 16,
               offset: const Offset(0, -4),
             ),
@@ -131,9 +131,7 @@ class _NavItem extends StatelessWidget {
           vertical: 8,
         ),
         decoration: BoxDecoration(
-          color: isActive
-              ? AppColors.primaryLighter
-              : Colors.transparent,
+          color: isActive ? AppColors.primaryLighter : Colors.transparent,
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -150,9 +148,7 @@ class _NavItem extends StatelessWidget {
               style: TextStyle(
                 fontSize: 11,
                 fontFamily: 'Poppins',
-                fontWeight: isActive
-                    ? FontWeight.w600
-                    : FontWeight.w400,
+                fontWeight: isActive ? FontWeight.w600 : FontWeight.w400,
                 color: isActive ? AppColors.primary : AppColors.grey,
               ),
             ),

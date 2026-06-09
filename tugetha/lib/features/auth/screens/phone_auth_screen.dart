@@ -54,8 +54,8 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
         );
       },
       onAutoVerified: (credential) async {
-        final result = await FirebaseAuth.instance
-            .signInWithCredential(credential);
+        final result =
+            await FirebaseAuth.instance.signInWithCredential(credential);
         if (mounted && result.user != null) {
           Navigator.pushReplacement(
             context,
@@ -97,7 +97,8 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: const Center(
-                    child: Text('T',
+                    child: Text(
+                      'T',
                       style: TextStyle(
                         fontSize: 28,
                         fontWeight: FontWeight.w700,
@@ -174,7 +175,8 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                         children: [
                           Text('🇰🇪', style: TextStyle(fontSize: 18)),
                           SizedBox(width: 6),
-                          Text('+254',
+                          Text(
+                            '+254',
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
@@ -213,15 +215,15 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                 ElevatedButton(
                   onPressed: _isLoading ? null : _onContinue,
                   child: _isLoading
-                    ? const SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.5,
-                          color: Colors.white,
-                        ),
-                      )
-                    : const Text('Continue'),
+                      ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 2.5,
+                            color: Colors.white,
+                          ),
+                        )
+                      : const Text('Continue'),
                 ),
                 const SizedBox(height: 24),
 

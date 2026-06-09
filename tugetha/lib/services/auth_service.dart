@@ -7,7 +7,7 @@ class AuthService {
   static User? get currentUser => _auth.currentUser;
 
   // Get ID Token for backend auth
-  static Future<String?> get idToken async => 
+  static Future<String?> get idToken async =>
       await _auth.currentUser?.getIdToken();
 
   // Auth state stream

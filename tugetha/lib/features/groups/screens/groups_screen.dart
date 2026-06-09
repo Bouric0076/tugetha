@@ -67,11 +67,11 @@ class GroupsScreen extends ConsumerWidget {
                     color: AppColors.primary,
                   ),
                 ),
-                error: (e, _) => Center(
+                error: (e, _) => const Center(
                   child: Text(
                     'Error loading groups.\nPlease try again.',
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontFamily: 'Poppins',
                       color: AppColors.grey,
                     ),
@@ -85,8 +85,7 @@ class GroupsScreen extends ConsumerWidget {
                         MaterialPageRoute(
                           builder: (_) => const CreateGroupScreen(),
                         ),
-                      ).then(
-                          (_) => ref.invalidate(groupsProvider)),
+                      ).then((_) => ref.invalidate(groupsProvider)),
                     );
                   }
 
@@ -113,8 +112,8 @@ class GroupsScreen extends ConsumerWidget {
                           separatorBuilder: (_, __) =>
                               const SizedBox(height: 14),
                           itemBuilder: (context, i) {
-                            final data = groups[i].data()
-                                as Map<String, dynamic>;
+                            final data =
+                                groups[i].data() as Map<String, dynamic>;
                             final groupId = groups[i].id;
                             return _GroupCard(
                               groupId: groupId,
@@ -160,7 +159,7 @@ class _EmptyGroups extends StatelessWidget {
             Container(
               width: 100,
               height: 100,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AppColors.primaryLighter,
                 shape: BoxShape.circle,
               ),
@@ -242,11 +241,11 @@ class _GroupStatsBar extends StatelessWidget {
             color: AppColors.accent,
           ),
           _VerticalDivider(),
-          _StatItem(
+          const _StatItem(
             label: 'Goals',
             value: '—',
             icon: Icons.flag_outlined,
-            color: const Color(0xFF185FA5),
+            color: Color(0xFF185FA5),
           ),
         ],
       ),
@@ -323,7 +322,7 @@ class _GroupCard extends StatelessWidget {
     final members = data['members'] as List? ?? [];
     final name = data['name'] ?? 'Group';
     final emoji = data['emoji'] ?? '🤝';
-    final color = AppColors.primary;
+    const color = AppColors.primary;
 
     return GestureDetector(
       onTap: onTap,
@@ -340,7 +339,7 @@ class _GroupCard extends StatelessWidget {
               width: 56,
               height: 56,
               decoration: BoxDecoration(
-                color: color.withOpacity(0.12),
+                color: color.withValues(alpha: 0.12),
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Center(
@@ -388,7 +387,7 @@ class _GroupCard extends StatelessWidget {
                     'Tap to view goals & activity',
                     style: TextStyle(
                       fontSize: 11,
-                      color: color.withOpacity(0.7),
+                      color: color.withValues(alpha: 0.7),
                       fontFamily: 'Poppins',
                       fontWeight: FontWeight.w500,
                     ),

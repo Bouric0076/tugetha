@@ -12,3 +12,10 @@ GeneratedPluginRegistrant.java
 key.properties
 **/*.keystore
 **/*.jks
+
+/google-services.json
+/firebase_app_id_file.json
+/firebase_crashlytics_build_id_file.json
+/firebase_crashlytics_mapping_file_id_file.json
+/firebase_crashlytics_unstripped_native_libs_file_id_file.json
+/firebase_crashlytics_symbols_file_id_file.json

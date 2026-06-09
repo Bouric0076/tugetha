@@ -22,3 +22,5 @@ tugetha/lib/firebase_options.dart
 # Environment files
 .env
 *.env
+
+.fake

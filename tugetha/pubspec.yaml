@@ -1,4 +1,4 @@
-name: Tugetha
+name: tugetha
 description: Save Together. Lend to Friends. Achieve Goals.
 publish_to: 'none'
 version: 1.0.0+1
@@ -60,6 +60,7 @@ flutter_launcher_icons:
   android: "ic_launcher"
   ios: true
   image_path: "assets/icons/app_icon.png"
+  remove_alpha_ios: true
   adaptive_icon_background: "#185FA5"
   adaptive_icon_foreground: "assets/icons/app_icon.png"
 

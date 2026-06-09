@@ -33,8 +33,7 @@ class ProfileScreen extends ConsumerWidget {
         final data = doc?.data() as Map<String, dynamic>?;
         final name = data?['name'] ?? 'User';
         final phone = AuthService.currentUser?.phoneNumber ?? '';
-        final balance =
-            (data?['walletBalance'] ?? 0.0).toDouble();
+        final balance = (data?['walletBalance'] ?? 0.0).toDouble();
         final trustScore = data?['trustScore'] ?? 50;
         final kycStatus = data?['kycStatus'] ?? 'pending';
         final createdAt = data?['createdAt'] as Timestamp?;
@@ -93,10 +92,9 @@ class ProfileScreen extends ConsumerWidget {
                       horizontal: 24,
                     ),
                     child: Column(
-                      crossAxisAlignment:
-                          CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        _SectionLabel('Account'),
+                        const _SectionLabel('Account'),
                         _MenuItem(
                           icon: Icons.person_outline_rounded,
                           label: 'Edit Profile',
@@ -113,39 +111,33 @@ class ProfileScreen extends ConsumerWidget {
                         _MenuItem(
                           icon: Icons.phone_outlined,
                           label: 'M-Pesa Number',
-                          trailing:
-                              data?['mpesaNumber'] ?? phone,
+                          trailing: data?['mpesaNumber'] ?? phone,
                           onTap: () {},
                         ),
                         _MenuItem(
                           icon: Icons.verified_outlined,
                           label: 'KYC Verification',
-                          trailing: kycStatus == 'verified'
-                              ? 'Verified'
-                              : 'Pending',
-                          trailingColor:
-                              kycStatus == 'verified'
-                                  ? AppColors.success
-                                  : AppColors.warning,
+                          trailing:
+                              kycStatus == 'verified' ? 'Verified' : 'Pending',
+                          trailingColor: kycStatus == 'verified'
+                              ? AppColors.success
+                              : AppColors.warning,
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) =>
-                                  const KycScreen(),
+                              builder: (_) => const KycScreen(),
                             ),
                           ),
                         ),
                         const SizedBox(height: 20),
-
-                        _SectionLabel('Security'),
+                        const _SectionLabel('Security'),
                         _MenuItem(
                           icon: Icons.lock_outline_rounded,
                           label: 'Change PIN',
                           onTap: () => Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (_) =>
-                                  const ChangePinScreen(),
+                              builder: (_) => const ChangePinScreen(),
                             ),
                           ),
                         ),
@@ -162,19 +154,14 @@ class ProfileScreen extends ConsumerWidget {
                           onTap: () {},
                         ),
                         const SizedBox(height: 20),
-
-                        _SectionLabel('Notifications'),
+                        const _SectionLabel('Notifications'),
                         _NotificationToggle(
-                          uid: AuthService
-                                  .currentUser?.uid ??
-                              '',
-                          preferences:
-                              data?['notificationPrefs']
-                                  as Map<String, dynamic>?,
+                          uid: AuthService.currentUser?.uid ?? '',
+                          preferences: data?['notificationPrefs']
+                              as Map<String, dynamic>?,
                         ),
                         const SizedBox(height: 20),
-
-                        _SectionLabel('Support'),
+                        const _SectionLabel('Support'),
                         _MenuItem(
                           icon: Icons.help_outline_rounded,
                           label: 'Help & FAQ',
@@ -196,14 +183,12 @@ class ProfileScreen extends ConsumerWidget {
                           onTap: () {},
                         ),
                         const SizedBox(height: 20),
-
                         _SignOutButton(),
                         const SizedBox(height: 12),
-
-                        Center(
+                        const Center(
                           child: Text(
                             'Tugetha v1.0.0 • by Sinaps Technology',
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 11,
                               color: AppColors.greyLight,
                               fontFamily: 'Poppins',
@@ -225,8 +210,18 @@ class ProfileScreen extends ConsumerWidget {
 
   String _formatMemberSince(DateTime date) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
     ];
     return '${months[date.month - 1]} ${date.year}';
   }
@@ -268,7 +263,7 @@ class _ProfileHeader extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 48,
-                backgroundColor: Colors.white.withOpacity(0.2),
+                backgroundColor: Colors.white.withValues(alpha: 0.2),
                 child: Text(
                   initials,
                   style: const TextStyle(
@@ -331,7 +326,7 @@ class _ProfileHeader extends StatelessWidget {
               vertical: 4,
             ),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.15),
+              color: Colors.white.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(20),
             ),
             child: Text(
@@ -485,15 +480,15 @@ class _TrustScoreCard extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            _color.withOpacity(0.08),
-            _color.withOpacity(0.15),
+            _color.withValues(alpha: 0.08),
+            _color.withValues(alpha: 0.15),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: _color.withOpacity(0.2),
+          color: _color.withValues(alpha: 0.2),
         ),
       ),
       child: Row(
@@ -528,9 +523,9 @@ class _TrustScoreCard extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       'Trust Score',
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
                         color: AppColors.dark,
@@ -561,8 +556,7 @@ class _TrustScoreCard extends StatelessWidget {
                     value: score / 100,
                     minHeight: 6,
                     backgroundColor: AppColors.white,
-                    valueColor:
-                        AlwaysStoppedAnimation<Color>(_color),
+                    valueColor: AlwaysStoppedAnimation<Color>(_color),
                   ),
                 ),
               ],
@@ -585,12 +579,10 @@ class _NotificationToggle extends StatefulWidget {
   });
 
   @override
-  State<_NotificationToggle> createState() =>
-      _NotificationToggleState();
+  State<_NotificationToggle> createState() => _NotificationToggleState();
 }
 
-class _NotificationToggleState
-    extends State<_NotificationToggle> {
+class _NotificationToggleState extends State<_NotificationToggle> {
   late bool _push;
   late bool _sms;
   late bool _email;
@@ -756,7 +748,7 @@ class _MenuItemState extends State<_MenuItem> {
                   setState(() => _value = val);
                   widget.onToggle?.call(val);
                 },
-                activeColor: AppColors.primary,
+                activeThumbColor: AppColors.primary,
               )
             else if (widget.trailing != null)
               Text(
@@ -764,8 +756,7 @@ class _MenuItemState extends State<_MenuItem> {
                 style: TextStyle(
                   fontSize: 13,
                   fontWeight: FontWeight.w500,
-                  color: widget.trailingColor ??
-                      AppColors.grey,
+                  color: widget.trailingColor ?? AppColors.grey,
                   fontFamily: 'Poppins',
                 ),
               )
@@ -795,12 +786,12 @@ class _SignOutButton extends StatelessWidget {
           color: const Color(0xFFFCEBEB),
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: AppColors.error.withOpacity(0.2),
+            color: AppColors.error.withValues(alpha: 0.2),
           ),
         ),
-        child: Row(
+        child: const Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Icon(
               Icons.logout_rounded,
               color: AppColors.error,
@@ -877,8 +868,7 @@ class _SignOutRedirect extends StatefulWidget {
   const _SignOutRedirect();
 
   @override
-  State<_SignOutRedirect> createState() =>
-      _SignOutRedirectState();
+  State<_SignOutRedirect> createState() => _SignOutRedirectState();
 }
 
 class _SignOutRedirectState extends State<_SignOutRedirect> {

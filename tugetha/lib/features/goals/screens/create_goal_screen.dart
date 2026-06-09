@@ -11,8 +11,7 @@ class CreateGoalScreen extends ConsumerStatefulWidget {
   const CreateGoalScreen({super.key, this.groupId});
 
   @override
-  ConsumerState<CreateGoalScreen> createState() =>
-      _CreateGoalScreenState();
+  ConsumerState<CreateGoalScreen> createState() => _CreateGoalScreenState();
 }
 
 class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
@@ -31,20 +30,22 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
   }
 
   final _categories = [
-    '✈️ Trip', '🎉 Event', '🏥 Emergency',
-    '💼 Business', '🎓 Education', '🛒 Shopping',
-    '🏠 Home', '🎯 Other',
+    '✈️ Trip',
+    '🎉 Event',
+    '🏥 Emergency',
+    '💼 Business',
+    '🎓 Education',
+    '🛒 Shopping',
+    '🏠 Home',
+    '🎯 Other',
   ];
 
   Future<void> _pickDate() async {
     final picked = await showDatePicker(
       context: context,
-      initialDate:
-          DateTime.now().add(const Duration(days: 30)),
-      firstDate:
-          DateTime.now().add(const Duration(days: 1)),
-      lastDate: DateTime.now()
-          .add(const Duration(days: 365 * 2)),
+      initialDate: DateTime.now().add(const Duration(days: 30)),
+      firstDate: DateTime.now().add(const Duration(days: 1)),
+      lastDate: DateTime.now().add(const Duration(days: 365 * 2)),
       builder: (context, child) => Theme(
         data: Theme.of(context).copyWith(
           colorScheme: const ColorScheme.light(
@@ -94,8 +95,7 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
         groupId: _selectedGroupId!,
         title: _titleController.text.trim(),
         category: _selectedCategory,
-        targetAmount: double.parse(
-            _amountController.text.trim()),
+        targetAmount: double.parse(_amountController.text.trim()),
         deadline: _deadline!,
         creatorId: user.uid,
       );
@@ -106,8 +106,7 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
           SnackBar(
             content: Text(
               'Goal "${_titleController.text}" created!',
-              style:
-                  const TextStyle(fontFamily: 'Poppins'),
+              style: const TextStyle(fontFamily: 'Poppins'),
             ),
             backgroundColor: AppColors.success,
             behavior: SnackBarBehavior.floating,
@@ -118,12 +117,13 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
         );
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() => _isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
+        const SnackBar(
           content: Text(
             'Failed to create goal. Try again.',
-            style: const TextStyle(fontFamily: 'Poppins'),
+            style: TextStyle(fontFamily: 'Poppins'),
           ),
           backgroundColor: AppColors.error,
         ),
@@ -173,35 +173,29 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
                   const SizedBox(height: 8),
                   ref.watch(groupsProvider).when(
                         data: (snapshot) {
-                          if (snapshot == null ||
-                              snapshot.docs.isEmpty) {
+                          if (snapshot == null || snapshot.docs.isEmpty) {
                             return const Text(
                                 'No groups found. Create a group first.');
                           }
-                          return DropdownButtonFormField<
-                              String>(
-                            value: _selectedGroupId,
+                          return DropdownButtonFormField<String>(
+                            initialValue: _selectedGroupId,
                             hint: const Text('Pick a group'),
                             items: snapshot.docs.map((doc) {
-                              final data = doc.data()
-                                  as Map<String, dynamic>;
+                              final data = doc.data() as Map<String, dynamic>;
                               return DropdownMenuItem(
                                 value: doc.id,
                                 child: Text(
                                     '${data['emoji'] ?? '👥'} ${data['name']}'),
                               );
                             }).toList(),
-                            onChanged: (val) => setState(
-                                () => _selectedGroupId = val),
-                            validator: (val) => val == null
-                                ? 'Please select a group'
-                                : null,
+                            onChanged: (val) =>
+                                setState(() => _selectedGroupId = val),
+                            validator: (val) =>
+                                val == null ? 'Please select a group' : null,
                           );
                         },
-                        loading: () =>
-                            const CircularProgressIndicator(),
-                        error: (e, _) =>
-                            Text('Error loading groups: $e'),
+                        loading: () => const CircularProgressIndicator(),
+                        error: (e, _) => Text('Error loading groups: $e'),
                       ),
                   const SizedBox(height: 20),
                 ],
@@ -219,8 +213,7 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _titleController,
-                  textCapitalization:
-                      TextCapitalization.words,
+                  textCapitalization: TextCapitalization.words,
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     fontWeight: FontWeight.w500,
@@ -233,10 +226,9 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
                       color: AppColors.grey,
                     ),
                   ),
-                  validator: (val) =>
-                      val == null || val.trim().isEmpty
-                          ? 'Please enter a goal title'
-                          : null,
+                  validator: (val) => val == null || val.trim().isEmpty
+                      ? 'Please enter a goal title'
+                      : null,
                 ),
                 const SizedBox(height: 20),
 
@@ -266,8 +258,7 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
                   decoration: const InputDecoration(
                     hintText: '0',
                     prefixIcon: Padding(
-                      padding: EdgeInsets.only(
-                          left: 16, right: 8),
+                      padding: EdgeInsets.only(left: 16, right: 8),
                       child: Text(
                         'KES',
                         style: TextStyle(
@@ -278,8 +269,7 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
                         ),
                       ),
                     ),
-                    prefixIconConstraints:
-                        BoxConstraints(minWidth: 0),
+                    prefixIconConstraints: BoxConstraints(minWidth: 0),
                   ),
                   validator: (val) {
                     if (val == null || val.isEmpty) {
@@ -308,14 +298,11 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
                   spacing: 10,
                   runSpacing: 10,
                   children: _categories.map((cat) {
-                    final isSelected =
-                        _selectedCategory == cat;
+                    final isSelected = _selectedCategory == cat;
                     return GestureDetector(
-                      onTap: () => setState(
-                          () => _selectedCategory = cat),
+                      onTap: () => setState(() => _selectedCategory = cat),
                       child: AnimatedContainer(
-                        duration: const Duration(
-                            milliseconds: 200),
+                        duration: const Duration(milliseconds: 200),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 14,
                           vertical: 10,
@@ -324,8 +311,7 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
                           color: isSelected
                               ? AppColors.primaryLighter
                               : AppColors.white,
-                          borderRadius:
-                              BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             color: isSelected
                                 ? AppColors.primary
@@ -338,12 +324,10 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
                           style: TextStyle(
                             fontSize: 13,
                             fontFamily: 'Poppins',
-                            fontWeight: isSelected
-                                ? FontWeight.w600
-                                : FontWeight.w400,
-                            color: isSelected
-                                ? AppColors.primary
-                                : AppColors.grey,
+                            fontWeight:
+                                isSelected ? FontWeight.w600 : FontWeight.w400,
+                            color:
+                                isSelected ? AppColors.primary : AppColors.grey,
                           ),
                         ),
                       ),
@@ -369,10 +353,8 @@ class _CreateGoalScreenState extends ConsumerState<CreateGoalScreen> {
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
                       color: AppColors.white,
-                      borderRadius:
-                          BorderRadius.circular(12),
-                      border: Border.all(
-                          color: AppColors.greyLight),
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppColors.greyLight),
                     ),
                     child: Row(
                       children: [

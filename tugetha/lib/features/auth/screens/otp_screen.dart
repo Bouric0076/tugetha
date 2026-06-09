@@ -20,8 +20,7 @@ class OtpScreen extends StatefulWidget {
 class _OtpScreenState extends State<OtpScreen> {
   final List<TextEditingController> _controllers =
       List.generate(6, (_) => TextEditingController());
-  final List<FocusNode> _focusNodes =
-      List.generate(6, (_) => FocusNode());
+  final List<FocusNode> _focusNodes = List.generate(6, (_) => FocusNode());
   bool _isLoading = false;
   int _resendSeconds = 30;
   bool _canResend = false;
@@ -53,13 +52,12 @@ class _OtpScreenState extends State<OtpScreen> {
     });
   }
 
-  String get _otp =>
-      _controllers.map((c) => c.text).join();
+  String get _otp => _controllers.map((c) => c.text).join();
 
   void _onVerify() async {
     if (_otp.length < 6) return;
     if (_isLoading) return;
-    
+
     setState(() => _isLoading = true);
 
     final result = await AuthService.verifyOtp(
@@ -69,7 +67,9 @@ class _OtpScreenState extends State<OtpScreen> {
         if (mounted) {
           setState(() {
             _isLoading = false;
-            for (var c in _controllers) c.clear();
+            for (var c in _controllers) {
+              c.clear();
+            }
             _focusNodes[0].requestFocus();
           });
           ScaffoldMessenger.of(context).showSnackBar(
@@ -105,7 +105,8 @@ class _OtpScreenState extends State<OtpScreen> {
   void _onDigitEntered(int index, String val) {
     if (val.length > 1) {
       // Handle paste
-      final digits = val.split('').where((s) => int.tryParse(s) != null).toList();
+      final digits =
+          val.split('').where((s) => int.tryParse(s) != null).toList();
       for (int i = 0; i < digits.length && (index + i) < 6; i++) {
         _controllers[index + i].text = digits[i];
       }
@@ -196,29 +197,31 @@ class _OtpScreenState extends State<OtpScreen> {
               // OTP boxes
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(6, (i) => _OtpBox(
-                  controller: _controllers[i],
-                  focusNode: _focusNodes[i],
-                  onChanged: (val) => _onDigitEntered(i, val),
-                )),
+                children: List.generate(
+                    6,
+                    (i) => _OtpBox(
+                          controller: _controllers[i],
+                          focusNode: _focusNodes[i],
+                          onChanged: (val) => _onDigitEntered(i, val),
+                        )),
               ),
               const SizedBox(height: 32),
 
               // Resend
               Center(
                 child: _canResend
-                  ? TextButton(
-                      onPressed: _startResendTimer,
-                      child: const Text('Resend code'),
-                    )
-                  : Text(
-                      'Resend code in ${_resendSeconds}s',
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.grey,
-                        fontFamily: 'Poppins',
+                    ? TextButton(
+                        onPressed: _startResendTimer,
+                        child: const Text('Resend code'),
+                      )
+                    : Text(
+                        'Resend code in ${_resendSeconds}s',
+                        style: const TextStyle(
+                          fontSize: 13,
+                          color: AppColors.grey,
+                          fontFamily: 'Poppins',
+                        ),
                       ),
-                    ),
               ),
               const Spacer(),
 
@@ -226,12 +229,13 @@ class _OtpScreenState extends State<OtpScreen> {
               ElevatedButton(
                 onPressed: _isLoading ? null : _onVerify,
                 child: _isLoading
-                  ? const SizedBox(
-                      width: 22, height: 22,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.5, color: Colors.white),
-                    )
-                  : const Text('Verify'),
+                    ? const SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: CircularProgressIndicator(
+                            strokeWidth: 2.5, color: Colors.white),
+                      )
+                    : const Text('Verify'),
               ),
               const SizedBox(height: 32),
             ],
@@ -275,7 +279,8 @@ class _OtpBox extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.greyLight, width: 1.5),
+            borderSide:
+                const BorderSide(color: AppColors.greyLight, width: 1.5),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),

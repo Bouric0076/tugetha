@@ -5,7 +5,6 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/providers/app_providers.dart';
 import '../widgets/transaction_item.dart';
 
-
 class WalletScreen extends ConsumerWidget {
   const WalletScreen({super.key});
 
@@ -34,8 +33,7 @@ class WalletScreen extends ConsumerWidget {
           backgroundColor: AppColors.background,
           body: SafeArea(
             child: SingleChildScrollView(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 24),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -66,10 +64,9 @@ class WalletScreen extends ConsumerWidget {
                   const SizedBox(height: 28),
 
                   // Transactions header
-                  Row(
-                    mainAxisAlignment:
-                        MainAxisAlignment.spaceBetween,
-                    children: const [
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
                       Text(
                         'Transactions',
                         style: TextStyle(
@@ -93,26 +90,19 @@ class WalletScreen extends ConsumerWidget {
                     ),
                     error: (_, __) => const SizedBox(),
                     data: (snapshot) {
-                      if (snapshot == null ||
-                          snapshot.docs.isEmpty) {
+                      if (snapshot == null || snapshot.docs.isEmpty) {
                         return _EmptyTransactions();
                       }
                       return Column(
-                        children:
-                            snapshot.docs.map((doc) {
-                          final d = doc.data()
-                              as Map<String, dynamic>;
-                          final amount =
-                              (d['amount'] ?? 0.0)
-                                  .toDouble();
+                        children: snapshot.docs.map((doc) {
+                          final d = doc.data() as Map<String, dynamic>;
+                          final amount = (d['amount'] ?? 0.0).toDouble();
                           final isCredit = amount > 0;
                           return TransactionItem(
                             data: TransactionData(
                               icon: isCredit
-                                  ? Icons
-                                      .arrow_downward_rounded
-                                  : Icons
-                                      .arrow_upward_rounded,
+                                  ? Icons.arrow_downward_rounded
+                                  : Icons.arrow_upward_rounded,
                               iconColor: isCredit
                                   ? AppColors.success
                                   : AppColors.error,
@@ -120,16 +110,13 @@ class WalletScreen extends ConsumerWidget {
                                   ? AppColors.accentLighter
                                   : const Color(0xFFFCEBEB),
                               title: d['type'] ?? '',
-                              subtitle:
-                                  d['description'] ?? '',
+                              subtitle: d['description'] ?? '',
                               amount:
                                   '${isCredit ? '+' : ''}KES ${amount.abs().toStringAsFixed(0)}',
                               amountColor: isCredit
                                   ? AppColors.success
                                   : AppColors.error,
-                              time: _formatTime(
-                                  d['createdAt']
-                                      as Timestamp?),
+                              time: _formatTime(d['createdAt'] as Timestamp?),
                               status: 'Completed',
                             ),
                           );
@@ -166,8 +153,7 @@ class WalletScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(32),
         decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -231,8 +217,8 @@ class _EmptyTransactions extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.greyLighter),
       ),
-      child: Column(
-        children: const [
+      child: const Column(
+        children: [
           Icon(
             Icons.receipt_long_outlined,
             color: AppColors.greyLight,
@@ -284,9 +270,9 @@ class _BalanceCardState extends State<_BalanceCard> {
 
   String _formatBalance(double balance) {
     return balance.toStringAsFixed(2).replaceAllMapped(
-      RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-      (m) => '${m[1]},',
-    );
+          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
+          (m) => '${m[1]},',
+        );
   }
 
   @override
@@ -317,8 +303,7 @@ class _BalanceCardState extends State<_BalanceCard> {
                 ),
               ),
               GestureDetector(
-                onTap: () => setState(
-                    () => _balanceVisible = !_balanceVisible),
+                onTap: () => setState(() => _balanceVisible = !_balanceVisible),
                 child: Icon(
                   _balanceVisible
                       ? Icons.visibility_outlined
@@ -348,8 +333,7 @@ class _BalanceCardState extends State<_BalanceCard> {
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: widget.onTopUp,
-                  icon: const Icon(Icons.add_rounded,
-                      size: 18),
+                  icon: const Icon(Icons.add_rounded, size: 18),
                   label: const Text('Top Up'),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.white,
@@ -371,9 +355,7 @@ class _BalanceCardState extends State<_BalanceCard> {
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: widget.onWithdraw,
-                  icon: const Icon(
-                      Icons.arrow_upward_rounded,
-                      size: 18),
+                  icon: const Icon(Icons.arrow_upward_rounded, size: 18),
                   label: const Text('Withdraw'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: Colors.white,
@@ -418,10 +400,8 @@ class _StatsRow extends StatelessWidget {
 
         if (snapshot != null) {
           for (final doc in snapshot.docs) {
-            final data =
-                doc.data() as Map<String, dynamic>;
-            final amount =
-                (data['amount'] ?? 0.0).toDouble();
+            final data = doc.data() as Map<String, dynamic>;
+            final amount = (data['amount'] ?? 0.0).toDouble();
             if (amount > 0) {
               totalIn += amount;
             } else {
@@ -435,8 +415,7 @@ class _StatsRow extends StatelessWidget {
             Expanded(
               child: _StatCard(
                 label: 'Total In',
-                amount:
-                    'KES ${totalIn.toStringAsFixed(0)}',
+                amount: 'KES ${totalIn.toStringAsFixed(0)}',
                 icon: Icons.arrow_downward_rounded,
                 color: AppColors.success,
                 bg: AppColors.accentLighter,
@@ -446,8 +425,7 @@ class _StatsRow extends StatelessWidget {
             Expanded(
               child: _StatCard(
                 label: 'Total Out',
-                amount:
-                    'KES ${totalOut.toStringAsFixed(0)}',
+                amount: 'KES ${totalOut.toStringAsFixed(0)}',
                 icon: Icons.arrow_upward_rounded,
                 color: AppColors.error,
                 bg: const Color(0xFFFCEBEB),

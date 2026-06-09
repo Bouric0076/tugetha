@@ -4,7 +4,6 @@ import '../../../core/constants/app_colors.dart';
 import '../../../services/auth_service.dart';
 import '../../../services/firestore_service.dart';
 import '../../../services/paystack_service.dart';
-import '../../../services/wallet_service.dart';
 
 class LoanDetailScreen extends StatefulWidget {
   final String loanId;
@@ -19,8 +18,7 @@ class LoanDetailScreen extends StatefulWidget {
   });
 
   @override
-  State<LoanDetailScreen> createState() =>
-      _LoanDetailScreenState();
+  State<LoanDetailScreen> createState() => _LoanDetailScreenState();
 }
 
 class _LoanDetailScreenState extends State<LoanDetailScreen> {
@@ -54,24 +52,18 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
           .doc(widget.loanId)
           .snapshots(),
       builder: (context, snapshot) {
-        final loanData = snapshot.hasData &&
-                snapshot.data!.exists
+        final loanData = snapshot.hasData && snapshot.data!.exists
             ? snapshot.data!.data() as Map<String, dynamic>
             : widget.data;
 
-        final amount =
-            (loanData['amount'] ?? 0.0).toDouble();
-        final remaining =
-            (loanData['remaining'] ?? 0.0).toDouble();
+        final amount = (loanData['amount'] ?? 0.0).toDouble();
+        final remaining = (loanData['remaining'] ?? 0.0).toDouble();
         final status = loanData['status'] ?? 'pending';
         final isCompleted = status == 'completed';
         final isPending = status == 'pending';
-        final progress = amount > 0
-            ? ((amount - remaining) / amount)
-                .clamp(0.0, 1.0)
-            : 0.0;
-        final pct =
-            (progress * 100).toStringAsFixed(0);
+        final progress =
+            amount > 0 ? ((amount - remaining) / amount).clamp(0.0, 1.0) : 0.0;
+        final pct = (progress * 100).toStringAsFixed(0);
         final fee = (loanData['fee'] ?? 0.0).toDouble();
 
         return Scaffold(
@@ -90,8 +82,7 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
             child: SingleChildScrollView(
               padding: const EdgeInsets.all(24),
               child: Column(
-                crossAxisAlignment:
-                    CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Header card
                   Container(
@@ -111,20 +102,17 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
-                      borderRadius:
-                          BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(20),
                     ),
                     child: Column(
                       children: [
                         CircleAvatar(
                           radius: 32,
-                          backgroundColor:
-                              Colors.white.withOpacity(0.2),
+                          backgroundColor: Colors.white.withValues(alpha: 0.2),
                           child: Text(
                             _otherName
                                 .split(' ')
-                                .map((e) =>
-                                    e.isNotEmpty ? e[0] : '')
+                                .map((e) => e.isNotEmpty ? e[0] : '')
                                 .take(2)
                                 .join()
                                 .toUpperCase(),
@@ -193,19 +181,14 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
                       padding: const EdgeInsets.all(18),
                       decoration: BoxDecoration(
                         color: AppColors.white,
-                        borderRadius:
-                            BorderRadius.circular(16),
-                        border: Border.all(
-                            color: AppColors.greyLighter),
+                        borderRadius: BorderRadius.circular(16),
+                        border: Border.all(color: AppColors.greyLighter),
                       ),
                       child: Column(
-                        crossAxisAlignment:
-                            CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment
-                                    .spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               const Text(
                                 'Repayment Progress',
@@ -229,23 +212,19 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
                           ),
                           const SizedBox(height: 12),
                           ClipRRect(
-                            borderRadius:
-                                BorderRadius.circular(6),
+                            borderRadius: BorderRadius.circular(6),
                             child: LinearProgressIndicator(
                               value: progress,
                               minHeight: 10,
-                              backgroundColor:
-                                  AppColors.greyLighter,
-                              valueColor:
-                                  const AlwaysStoppedAnimation<Color>(
+                              backgroundColor: AppColors.greyLighter,
+                              valueColor: const AlwaysStoppedAnimation<Color>(
                                 AppColors.primary,
                               ),
                             ),
                           ),
                           const SizedBox(height: 16),
                           Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               _DetailStat(
                                 label: 'Paid',
@@ -255,15 +234,12 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
                               ),
                               _DetailStat(
                                 label: 'Remaining',
-                                value:
-                                    'KES ${remaining.toStringAsFixed(0)}',
+                                value: 'KES ${remaining.toStringAsFixed(0)}',
                                 color: AppColors.error,
                               ),
                               _DetailStat(
                                 label: 'Period',
-                                value: loanData[
-                                        'repaymentPeriod'] ??
-                                    '—',
+                                value: loanData['repaymentPeriod'] ?? '—',
                                 color: AppColors.dark,
                               ),
                             ],
@@ -288,10 +264,7 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
                   _InfoTable(rows: [
                     ['Status', status.toUpperCase()],
                     ['Purpose', loanData['purpose'] ?? '—'],
-                    [
-                      'Repayment period',
-                      loanData['repaymentPeriod'] ?? '—'
-                    ],
+                    ['Repayment period', loanData['repaymentPeriod'] ?? '—'],
                     [
                       'Facilitation fee',
                       'KES ${fee.toStringAsFixed(0)} (2.5%)'
@@ -308,8 +281,7 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
                     ElevatedButton.icon(
                       onPressed: _isLoading
                           ? null
-                          : () => _showRepaySheet(
-                              context, remaining, loanData),
+                          : () => _showRepaySheet(context, remaining, loanData),
                       icon: const Icon(Icons.payments_outlined),
                       label: const Text('Make a Repayment'),
                     ),
@@ -335,8 +307,7 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
         padding: const EdgeInsets.all(24),
         decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -366,23 +337,16 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
                 Expanded(
                   child: _RepayOption(
                     label: 'Half',
-                    amount:
-                        'KES ${(remaining / 2).toStringAsFixed(0)}',
-                    onTap: () => _repay(
-                      context,
-                      remaining / 2,
-                      loanData,
-                    ),
+                    amount: 'KES ${(remaining / 2).toStringAsFixed(0)}',
+                    onTap: () => _repay(remaining / 2, loanData),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: _RepayOption(
                     label: 'Full Remaining',
-                    amount:
-                        'KES ${remaining.toStringAsFixed(0)}',
-                    onTap: () =>
-                        _repay(context, remaining, loanData),
+                    amount: 'KES ${remaining.toStringAsFixed(0)}',
+                    onTap: () => _repay(remaining, loanData),
                   ),
                 ),
               ],
@@ -395,7 +359,6 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
   }
 
   Future<void> _repay(
-    BuildContext context,
     double amount,
     Map<String, dynamic> loanData,
   ) async {
@@ -421,47 +384,46 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
 
       final reference = data['reference'];
 
-      if (mounted) {
-        setState(() => _isLoading = false);
-        
-        // 2. Wait for STK Push and verification
-        await PaystackService.waitForStkPush(
-          context: context,
-          reference: reference,
-          onCompleted: (success) async {
-            if (success) {
-              // 3. Update loan balance in Firestore
-              final currentRemaining = (loanData['remaining'] ?? 0.0).toDouble();
-              final newRemaining = currentRemaining - amount;
-              
-              await FirebaseFirestore.instance
-                  .collection('loans')
-                  .doc(widget.loanId)
-                  .update({
-                'remaining': newRemaining,
-                'status': newRemaining <= 0 ? 'completed' : 'active',
-                'lastRepaymentDate': FieldValue.serverTimestamp(),
-              });
+      if (!mounted) return;
+      setState(() => _isLoading = false);
 
-              if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Repayment successful!'),
-                    backgroundColor: AppColors.success,
-                  ),
-                );
-              }
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Repayment failed or timed out.'),
-                  backgroundColor: AppColors.error,
-                ),
-              );
-            }
-          },
-        );
-      }
+      // 2. Wait for STK Push and verification
+      await PaystackService.waitForStkPush(
+        context: context,
+        reference: reference,
+        onCompleted: (success) async {
+          if (success) {
+            // 3. Update loan balance in Firestore
+            final currentRemaining = (loanData['remaining'] ?? 0.0).toDouble();
+            final newRemaining = currentRemaining - amount;
+
+            await FirebaseFirestore.instance
+                .collection('loans')
+                .doc(widget.loanId)
+                .update({
+              'remaining': newRemaining,
+              'status': newRemaining <= 0 ? 'completed' : 'active',
+              'lastRepaymentDate': FieldValue.serverTimestamp(),
+            });
+
+            if (!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Repayment successful!'),
+                backgroundColor: AppColors.success,
+              ),
+            );
+          } else {
+            if (!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Repayment failed or timed out.'),
+                backgroundColor: AppColors.error,
+              ),
+            );
+          }
+        },
+      );
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
@@ -492,8 +454,7 @@ class _ApproveBanner extends StatefulWidget {
   });
 
   @override
-  State<_ApproveBanner> createState() =>
-      _ApproveBannerState();
+  State<_ApproveBanner> createState() => _ApproveBannerState();
 }
 
 class _ApproveBannerState extends State<_ApproveBanner> {
@@ -522,44 +483,43 @@ class _ApproveBannerState extends State<_ApproveBanner> {
 
       final reference = data['reference'];
 
-      if (mounted) {
-        setState(() => _loading = false);
-        
-        // 2. Wait for STK Push and verification
-        await PaystackService.waitForStkPush(
-          context: context,
-          reference: reference,
-          onCompleted: (success) async {
-            if (success) {
-              // 3. Update loan status in Firestore
-              await FirebaseFirestore.instance
-                  .collection('loans')
-                  .doc(widget.loanId)
-                  .update({
-                'status': 'active',
-                'disbursedAt': FieldValue.serverTimestamp(),
-                'paymentReference': reference,
-              });
+      if (!mounted) return;
+      setState(() => _loading = false);
 
-              if (mounted) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                    content: Text('Loan disbursed successfully!'),
-                    backgroundColor: AppColors.success,
-                  ),
-                );
-              }
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Disbursement failed or timed out.'),
-                  backgroundColor: AppColors.error,
-                ),
-              );
-            }
-          },
-        );
-      }
+      // 2. Wait for STK Push and verification
+      await PaystackService.waitForStkPush(
+        context: context,
+        reference: reference,
+        onCompleted: (success) async {
+          if (success) {
+            // 3. Update loan status in Firestore
+            await FirebaseFirestore.instance
+                .collection('loans')
+                .doc(widget.loanId)
+                .update({
+              'status': 'active',
+              'disbursedAt': FieldValue.serverTimestamp(),
+              'paymentReference': reference,
+            });
+
+            if (!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Loan disbursed successfully!'),
+                backgroundColor: AppColors.success,
+              ),
+            );
+          } else {
+            if (!mounted) return;
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('Disbursement failed or timed out.'),
+                backgroundColor: AppColors.error,
+              ),
+            );
+          }
+        },
+      );
     } catch (e) {
       if (mounted) {
         setState(() => _loading = false);
@@ -593,14 +553,14 @@ class _ApproveBannerState extends State<_ApproveBanner> {
         color: const Color(0xFFE6F1FB),
         borderRadius: BorderRadius.circular(16),
         border: Border.all(
-          color: const Color(0xFF185FA5).withOpacity(0.3),
+          color: const Color(0xFF185FA5).withValues(alpha: 0.3),
         ),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: const [
+          const Row(
+            children: [
               Icon(
                 Icons.pending_outlined,
                 color: Color(0xFF185FA5),
@@ -652,8 +612,7 @@ class _ApproveBannerState extends State<_ApproveBanner> {
                   onPressed: _loading ? null : _decline,
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.error,
-                    side: const BorderSide(
-                        color: AppColors.error),
+                    side: const BorderSide(color: AppColors.error),
                   ),
                   child: const Text('Decline'),
                 ),
@@ -736,8 +695,7 @@ class _InfoTable extends StatelessWidget {
                   : null,
             ),
             child: Row(
-              mainAxisAlignment:
-                  MainAxisAlignment.spaceBetween,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   row[0],
@@ -786,7 +744,7 @@ class _RepayOption extends StatelessWidget {
           color: AppColors.primaryLighter,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
-            color: AppColors.primary.withOpacity(0.3),
+            color: AppColors.primary.withValues(alpha: 0.3),
           ),
         ),
         child: Column(

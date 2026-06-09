@@ -3,18 +3,15 @@ import 'package:flutter/services.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../services/auth_service.dart';
 import '../../../services/firestore_service.dart';
-import '../../../services/wallet_service.dart';
 
 class RequestLoanScreen extends StatefulWidget {
   const RequestLoanScreen({super.key});
 
   @override
-  State<RequestLoanScreen> createState() =>
-      _RequestLoanScreenState();
+  State<RequestLoanScreen> createState() => _RequestLoanScreenState();
 }
 
-class _RequestLoanScreenState
-    extends State<RequestLoanScreen> {
+class _RequestLoanScreenState extends State<RequestLoanScreen> {
   final _amountController = TextEditingController();
   final _purposeController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -26,8 +23,11 @@ class _RequestLoanScreenState
   List<Map<String, dynamic>> _searchResults = [];
 
   final _periods = [
-    '1 Week', '2 Weeks', '1 Month',
-    '2 Months', '3 Months',
+    '1 Week',
+    '2 Weeks',
+    '1 Month',
+    '2 Months',
+    '3 Months',
   ];
 
   void _searchFriend(String phone) async {
@@ -75,7 +75,7 @@ class _RequestLoanScreenState
       if (user == null) return;
 
       // 1. Create a pending loan request in Firestore
-      final loanId = await FirestoreService.createLoan(
+      await FirestoreService.createLoan(
         borrowerId: user.uid,
         lenderId: _selectedFriend!['uid'],
         amount: double.parse(_amountController.text.trim()),
@@ -88,6 +88,7 @@ class _RequestLoanScreenState
         _showConfirmation();
       }
     } catch (e) {
+      if (!mounted) return;
       setState(() => _isLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -202,8 +203,8 @@ class _RequestLoanScreenState
                     color: AppColors.primaryLighter,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Row(
-                    children: const [
+                  child: const Row(
+                    children: [
                       Icon(
                         Icons.account_balance_wallet_outlined,
                         color: AppColors.primary,
@@ -252,8 +253,7 @@ class _RequestLoanScreenState
                   decoration: const InputDecoration(
                     hintText: '0',
                     prefixIcon: Padding(
-                      padding: EdgeInsets.only(
-                          left: 16, right: 8),
+                      padding: EdgeInsets.only(left: 16, right: 8),
                       child: Text(
                         'KES',
                         style: TextStyle(
@@ -264,8 +264,7 @@ class _RequestLoanScreenState
                         ),
                       ),
                     ),
-                    prefixIconConstraints:
-                        BoxConstraints(minWidth: 0),
+                    prefixIconConstraints: BoxConstraints(minWidth: 0),
                   ),
                   validator: (val) {
                     if (val == null || val.isEmpty) {
@@ -292,24 +291,21 @@ class _RequestLoanScreenState
                 const SizedBox(height: 8),
                 TextFormField(
                   controller: _purposeController,
-                  textCapitalization:
-                      TextCapitalization.sentences,
+                  textCapitalization: TextCapitalization.sentences,
                   style: const TextStyle(
                     fontFamily: 'Poppins',
                     color: AppColors.dark,
                   ),
                   decoration: const InputDecoration(
-                    hintText:
-                        'e.g. Rent top-up, Emergency...',
+                    hintText: 'e.g. Rent top-up, Emergency...',
                     prefixIcon: Icon(
                       Icons.edit_outlined,
                       color: AppColors.grey,
                     ),
                   ),
-                  validator: (val) =>
-                      val == null || val.trim().isEmpty
-                          ? 'Please describe the purpose'
-                          : null,
+                  validator: (val) => val == null || val.trim().isEmpty
+                      ? 'Please describe the purpose'
+                      : null,
                 ),
                 const SizedBox(height: 24),
 
@@ -330,21 +326,17 @@ class _RequestLoanScreenState
                   children: _periods.map((p) {
                     final isSelected = _selectedPeriod == p;
                     return GestureDetector(
-                      onTap: () =>
-                          setState(() => _selectedPeriod = p),
+                      onTap: () => setState(() => _selectedPeriod = p),
                       child: AnimatedContainer(
-                        duration: const Duration(
-                            milliseconds: 200),
+                        duration: const Duration(milliseconds: 200),
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
                           vertical: 10,
                         ),
                         decoration: BoxDecoration(
-                          color: isSelected
-                              ? AppColors.primary
-                              : AppColors.white,
-                          borderRadius:
-                              BorderRadius.circular(10),
+                          color:
+                              isSelected ? AppColors.primary : AppColors.white,
+                          borderRadius: BorderRadius.circular(10),
                           border: Border.all(
                             color: isSelected
                                 ? AppColors.primary
@@ -357,9 +349,7 @@ class _RequestLoanScreenState
                             fontSize: 13,
                             fontFamily: 'Poppins',
                             fontWeight: FontWeight.w500,
-                            color: isSelected
-                                ? Colors.white
-                                : AppColors.grey,
+                            color: isSelected ? Colors.white : AppColors.grey,
                           ),
                         ),
                       ),
@@ -399,8 +389,7 @@ class _RequestLoanScreenState
                             child: SizedBox(
                               width: 20,
                               height: 20,
-                              child:
-                                  CircularProgressIndicator(
+                              child: CircularProgressIndicator(
                                 strokeWidth: 2,
                                 color: AppColors.primary,
                               ),
@@ -417,37 +406,30 @@ class _RequestLoanScreenState
                     decoration: BoxDecoration(
                       color: AppColors.white,
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                          color: AppColors.greyLighter),
+                      border: Border.all(color: AppColors.greyLighter),
                     ),
                     child: Column(
                       children: _searchResults.map((friend) {
                         final isSelected =
-                            _selectedFriend?['uid'] ==
-                                friend['uid'];
-                        final name =
-                            friend['name'] ?? 'User';
+                            _selectedFriend?['uid'] == friend['uid'];
+                        final name = friend['name'] ?? 'User';
                         final initials = name
                             .split(' ')
-                            .map((e) =>
-                                e.isNotEmpty ? e[0] : '')
+                            .map((e) => e.isNotEmpty ? e[0] : '')
                             .take(2)
                             .join()
                             .toUpperCase();
 
                         return GestureDetector(
-                          onTap: () => setState(
-                              () => _selectedFriend = friend),
+                          onTap: () => setState(() => _selectedFriend = friend),
                           child: AnimatedContainer(
-                            duration: const Duration(
-                                milliseconds: 200),
+                            duration: const Duration(milliseconds: 200),
                             padding: const EdgeInsets.all(14),
                             decoration: BoxDecoration(
                               color: isSelected
                                   ? AppColors.primaryLighter
                                   : Colors.transparent,
-                              borderRadius:
-                                  BorderRadius.circular(14),
+                              borderRadius: BorderRadius.circular(14),
                             ),
                             child: Row(
                               children: [
@@ -455,14 +437,12 @@ class _RequestLoanScreenState
                                   radius: 22,
                                   backgroundColor: isSelected
                                       ? AppColors.primary
-                                      : AppColors
-                                          .primaryLighter,
+                                      : AppColors.primaryLighter,
                                   child: Text(
                                     initials,
                                     style: TextStyle(
                                       fontSize: 13,
-                                      fontWeight:
-                                          FontWeight.w700,
+                                      fontWeight: FontWeight.w700,
                                       color: isSelected
                                           ? Colors.white
                                           : AppColors.primary,
@@ -474,15 +454,13 @@ class _RequestLoanScreenState
                                 Expanded(
                                   child: Column(
                                     crossAxisAlignment:
-                                        CrossAxisAlignment
-                                            .start,
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Text(
                                         name,
                                         style: const TextStyle(
                                           fontSize: 14,
-                                          fontWeight:
-                                              FontWeight.w600,
+                                          fontWeight: FontWeight.w600,
                                           color: AppColors.dark,
                                           fontFamily: 'Poppins',
                                         ),
@@ -500,8 +478,7 @@ class _RequestLoanScreenState
                                 ),
                                 Icon(
                                   isSelected
-                                      ? Icons
-                                          .check_circle_rounded
+                                      ? Icons.check_circle_rounded
                                       : Icons.circle_outlined,
                                   color: isSelected
                                       ? AppColors.primary
@@ -524,8 +501,7 @@ class _RequestLoanScreenState
                     decoration: BoxDecoration(
                       color: AppColors.white,
                       borderRadius: BorderRadius.circular(14),
-                      border: Border.all(
-                          color: AppColors.greyLighter),
+                      border: Border.all(color: AppColors.greyLighter),
                     ),
                     child: const Center(
                       child: Text(
@@ -547,8 +523,7 @@ class _RequestLoanScreenState
                       color: AppColors.accentLighter,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: AppColors.accent
-                            .withOpacity(0.3),
+                        color: AppColors.accent.withValues(alpha: 0.3),
                       ),
                     ),
                     child: Row(
@@ -582,8 +557,8 @@ class _RequestLoanScreenState
                     color: const Color(0xFFFAEEDA),
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Row(
-                    children: const [
+                  child: const Row(
+                    children: [
                       Icon(
                         Icons.info_outline_rounded,
                         color: AppColors.warning,

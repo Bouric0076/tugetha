@@ -47,7 +47,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
 
       if (mounted) {
         setState(() => _isLoading = false);
-        
+
         // 2. Show in-app dialog and wait for STK Push completion
         await PaystackService.waitForStkPush(
           context: context,
@@ -91,8 +91,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
         padding: const EdgeInsets.all(32),
         decoration: const BoxDecoration(
           color: Colors.white,
-          borderRadius:
-              BorderRadius.vertical(top: Radius.circular(24)),
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -201,8 +200,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
                   decoration: const InputDecoration(
                     hintText: '0',
                     prefixIcon: Padding(
-                      padding:
-                          EdgeInsets.only(left: 16, right: 8),
+                      padding: EdgeInsets.only(left: 16, right: 8),
                       child: Text(
                         'KES',
                         style: TextStyle(
@@ -213,8 +211,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
                         ),
                       ),
                     ),
-                    prefixIconConstraints:
-                        BoxConstraints(minWidth: 0),
+                    prefixIconConstraints: BoxConstraints(minWidth: 0),
                   ),
                   validator: (val) {
                     if (val == null || val.isEmpty) {
@@ -238,9 +235,8 @@ class _TopUpScreenState extends State<TopUpScreen> {
                   runSpacing: 10,
                   children: _quickAmounts.map((amount) {
                     return GestureDetector(
-                      onTap: () => setState(() =>
-                          _amountController.text =
-                              amount.toString()),
+                      onTap: () => setState(
+                          () => _amountController.text = amount.toString()),
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                           horizontal: 16,
@@ -248,10 +244,8 @@ class _TopUpScreenState extends State<TopUpScreen> {
                         ),
                         decoration: BoxDecoration(
                           color: AppColors.white,
-                          borderRadius:
-                              BorderRadius.circular(10),
-                          border: Border.all(
-                              color: AppColors.greyLight),
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: AppColors.greyLight),
                         ),
                         child: Text(
                           'KES $amount',
@@ -295,10 +289,8 @@ class _TopUpScreenState extends State<TopUpScreen> {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: const Color(0xFF4CAF50)
-                              .withOpacity(0.1),
-                          borderRadius:
-                              BorderRadius.circular(10),
+                          color: const Color(0xFF4CAF50).withValues(alpha: 0.1),
+                          borderRadius: BorderRadius.circular(10),
                         ),
                         child: const Center(
                           child: Text(
@@ -315,8 +307,7 @@ class _TopUpScreenState extends State<TopUpScreen> {
                       const SizedBox(width: 12),
                       const Expanded(
                         child: Column(
-                          crossAxisAlignment:
-                              CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               'M-Pesa',

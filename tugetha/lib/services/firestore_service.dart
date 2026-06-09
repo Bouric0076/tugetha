@@ -34,8 +34,7 @@ class FirestoreService {
     return doc.data();
   }
 
-  static Future<void> updateUser(
-      String uid, Map<String, dynamic> data) async {
+  static Future<void> updateUser(String uid, Map<String, dynamic> data) async {
     await _db.collection('users').doc(uid).update(data);
   }
 
@@ -126,11 +125,8 @@ class FirestoreService {
     required DateTime deadline,
     required String creatorId,
   }) async {
-    final doc = await _db
-        .collection('groups')
-        .doc(groupId)
-        .collection('goals')
-        .add({
+    final doc =
+        await _db.collection('groups').doc(groupId).collection('goals').add({
       'title': title,
       'category': category,
       'targetAmount': targetAmount,

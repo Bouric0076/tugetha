@@ -59,7 +59,8 @@ class WalletService {
         body: jsonEncode({
           'amount': amount,
           'phone': phone,
-          'idempotency_key': 'withdraw_${DateTime.now().millisecondsSinceEpoch}',
+          'idempotency_key':
+              'withdraw_${DateTime.now().millisecondsSinceEpoch}',
         }),
       );
 
@@ -95,7 +96,8 @@ class WalletService {
           'Authorization': 'Bearer $token',
         },
         body: jsonEncode({
-          'borrower_uid': lenderId, // Wait, the design says borrower_uid is passed by lender
+          'borrower_uid':
+              lenderId, // Wait, the design says borrower_uid is passed by lender
           'loan_id': loanId,
           'amount': amount,
           'idempotency_key': 'disb_$loanId',
@@ -134,7 +136,8 @@ class WalletService {
           'loan_id': loanId,
           'lender_uid': lenderId,
           'amount': amount,
-          'idempotency_key': 'repay_${loanId}_${DateTime.now().millisecondsSinceEpoch}',
+          'idempotency_key':
+              'repay_${loanId}_${DateTime.now().millisecondsSinceEpoch}',
         }),
       );
 
@@ -173,7 +176,8 @@ class WalletService {
             'group_id': groupId,
             'goal_id': goalId,
           },
-          'idempotency_key': 'goal_${goalId}_${DateTime.now().millisecondsSinceEpoch}',
+          'idempotency_key':
+              'goal_${goalId}_${DateTime.now().millisecondsSinceEpoch}',
         }),
       );
 
