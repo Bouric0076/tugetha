@@ -1,10 +1,9 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/providers/app_providers.dart';
-import 'create_group_screen.dart';
-import 'group_detail_screen.dart';
 
 class GroupsScreen extends ConsumerWidget {
   const GroupsScreen({super.key});
@@ -34,12 +33,7 @@ class GroupsScreen extends ConsumerWidget {
                     ),
                   ),
                   ElevatedButton.icon(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const CreateGroupScreen(),
-                      ),
-                    ).then((_) => ref.invalidate(groupsProvider)),
+                    onPressed: () => context.push('/createGroup').then((_) => ref.invalidate(groupsProvider)),
                     icon: const Icon(Icons.add_rounded, size: 18),
                     label: const Text('New'),
                     style: ElevatedButton.styleFrom(
@@ -80,12 +74,7 @@ class GroupsScreen extends ConsumerWidget {
                 data: (snapshot) {
                   if (snapshot == null || snapshot.docs.isEmpty) {
                     return _EmptyGroups(
-                      onCreateTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (_) => const CreateGroupScreen(),
-                        ),
-                      ).then((_) => ref.invalidate(groupsProvider)),
+                      onCreateTap: () => context.push('/createGroup').then((_) => ref.invalidate(groupsProvider)),
                     );
                   }
 
@@ -118,15 +107,7 @@ class GroupsScreen extends ConsumerWidget {
                             return _GroupCard(
                               groupId: groupId,
                               data: data,
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => GroupDetailScreen(
-                                    groupId: groupId,
-                                    data: data,
-                                  ),
-                                ),
-                              ),
+                              onTap: () => context.push('/groupDetail', extra: {'groupId': groupId, 'data': data}),
                             );
                           },
                         ),

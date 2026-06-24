@@ -1,7 +1,8 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../services/auth_service.dart';
-import 'pin_setup_screen.dart';
 
 class OtpScreen extends StatefulWidget {
   final String phoneNumber;
@@ -24,10 +25,12 @@ class _OtpScreenState extends State<OtpScreen> {
   bool _isLoading = false;
   int _resendSeconds = 30;
   bool _canResend = false;
+  late String _verificationId;
 
   @override
   void initState() {
     super.initState();
+    _verificationId = widget.verificationId;
     _startResendTimer();
     // Auto focus first box
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -61,7 +64,7 @@ class _OtpScreenState extends State<OtpScreen> {
     setState(() => _isLoading = true);
 
     final result = await AuthService.verifyOtp(
-      verificationId: widget.verificationId,
+      verificationId: _verificationId,
       otp: _otp,
       onError: (error) {
         if (mounted) {
@@ -93,12 +96,7 @@ class _OtpScreenState extends State<OtpScreen> {
     setState(() => _isLoading = false);
 
     if (result != null) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const PinSetupScreen(),
-        ),
-      );
+      context.go('/pinSetup');
     }
   }
 
@@ -129,6 +127,87 @@ class _OtpScreenState extends State<OtpScreen> {
     if (_otp.length == 6) _onVerify();
   }
 
+  void _resendCode() async {
+    if (_isLoading) return;
+    setState(() => _isLoading = true);
+
+    await AuthService.sendOtp(
+      phoneNumber: widget.phoneNumber,
+      onCodeSent: (verificationId) {
+        if (!mounted) return;
+        setState(() {
+          _verificationId = verificationId;
+          _isLoading = false;
+          _startResendTimer();
+        });
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text(
+              'Verification code resent successfully.',
+              style: TextStyle(fontFamily: 'Poppins'),
+            ),
+            backgroundColor: AppColors.primary,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      },
+      onError: (error) {
+        if (!mounted) return;
+        setState(() => _isLoading = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              error.contains('BILLING_NOT_ENABLED')
+                  ? 'Something went wrong. Please try again later.'
+                  : error,
+              style: const TextStyle(fontFamily: 'Poppins'),
+            ),
+            backgroundColor: AppColors.error,
+            behavior: SnackBarBehavior.floating,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10),
+            ),
+          ),
+        );
+      },
+      onAutoVerified: (credential) async {
+        try {
+          final result =
+              await FirebaseAuth.instance.signInWithCredential(credential);
+          if (mounted && result.user != null) {
+            setState(() => _isLoading = false);
+            context.go('/pinSetup');
+          }
+        } on FirebaseAuthException catch (error) {
+          if (!mounted) return;
+          setState(() => _isLoading = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                error.code == 'invalid-verification-code'
+                    ? 'Invalid code.'
+                    : 'Automatic verification failed. Please enter the code manually.',
+                style: const TextStyle(fontFamily: 'Poppins'),
+              ),
+              backgroundColor: AppColors.error,
+              behavior: SnackBarBehavior.floating,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+          );
+        }
+      },
+      onAutoRetrievalTimeout: (verificationId) {
+        if (!mounted) return;
+        setState(() => _isLoading = false);
+      },
+    );
+  }
+
   @override
   void dispose() {
     for (var c in _controllers) {
@@ -150,95 +229,97 @@ class _OtpScreenState extends State<OtpScreen> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded,
               size: 20, color: AppColors.dark),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
         ),
       ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 24),
-
-              const Text(
-                'Verify your\nnumber 🔐',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.dark,
-                  fontFamily: 'Poppins',
-                  height: 1.3,
-                ),
-              ),
-              const SizedBox(height: 10),
-
-              Text.rich(
-                TextSpan(
-                  text: 'We sent a 6-digit code to ',
-                  style: const TextStyle(
-                    fontSize: 15,
-                    color: AppColors.grey,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 24),
+  
+                const Text(
+                  'Verify your\nnumber 🔐',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.dark,
                     fontFamily: 'Poppins',
+                    height: 1.3,
                   ),
-                  children: [
-                    TextSpan(
-                      text: widget.phoneNumber,
-                      style: const TextStyle(
-                        color: AppColors.dark,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
                 ),
-              ),
-              const SizedBox(height: 48),
-
-              // OTP boxes
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: List.generate(
-                    6,
-                    (i) => _OtpBox(
-                          controller: _controllers[i],
-                          focusNode: _focusNodes[i],
-                          onChanged: (val) => _onDigitEntered(i, val),
-                        )),
-              ),
-              const SizedBox(height: 32),
-
-              // Resend
-              Center(
-                child: _canResend
-                    ? TextButton(
-                        onPressed: _startResendTimer,
-                        child: const Text('Resend code'),
-                      )
-                    : Text(
-                        'Resend code in ${_resendSeconds}s',
+                const SizedBox(height: 10),
+  
+                Text.rich(
+                  TextSpan(
+                    text: 'We sent a 6-digit code to ',
+                    style: const TextStyle(
+                      fontSize: 15,
+                      color: AppColors.grey,
+                      fontFamily: 'Poppins',
+                    ),
+                    children: [
+                      TextSpan(
+                        text: widget.phoneNumber,
                         style: const TextStyle(
-                          fontSize: 13,
-                          color: AppColors.grey,
-                          fontFamily: 'Poppins',
+                          color: AppColors.dark,
+                          fontWeight: FontWeight.w600,
                         ),
                       ),
-              ),
-              const Spacer(),
-
-              // Verify button
-              ElevatedButton(
-                onPressed: _isLoading ? null : _onVerify,
-                child: _isLoading
-                    ? const SizedBox(
-                        width: 22,
-                        height: 22,
-                        child: CircularProgressIndicator(
-                            strokeWidth: 2.5, color: Colors.white),
-                      )
-                    : const Text('Verify'),
-              ),
-              const SizedBox(height: 32),
-            ],
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 48),
+  
+                // OTP boxes
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: List.generate(
+                      6,
+                      (i) => _OtpBox(
+                            controller: _controllers[i],
+                            focusNode: _focusNodes[i],
+                            onChanged: (val) => _onDigitEntered(i, val),
+                          )),
+                ),
+                const SizedBox(height: 32),
+  
+                // Resend
+                Center(
+                  child: _canResend
+                      ? TextButton(
+                          onPressed: _isLoading ? null : _resendCode,
+                          child: const Text('Resend code'),
+                        )
+                      : Text(
+                          'Resend code in ${_resendSeconds}s',
+                          style: const TextStyle(
+                            fontSize: 13,
+                            color: AppColors.grey,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                ),
+                const SizedBox(height: 48),
+  
+                // Verify button
+                ElevatedButton(
+                  onPressed: _isLoading ? null : _onVerify,
+                  child: _isLoading
+                      ? const SizedBox(
+                          width: 22,
+                          height: 22,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2.5, color: Colors.white),
+                        )
+                      : const Text('Verify'),
+                ),
+                const SizedBox(height: 32),
+              ],
+            ),
           ),
         ),
       ),

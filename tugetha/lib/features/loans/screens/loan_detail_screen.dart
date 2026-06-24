@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/constants/app_colors.dart';
@@ -75,7 +76,7 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
                 Icons.arrow_back_ios_new_rounded,
                 size: 20,
               ),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => context.pop(),
             ),
           ),
           body: SafeArea(
@@ -362,7 +363,7 @@ class _LoanDetailScreenState extends State<LoanDetailScreen> {
     double amount,
     Map<String, dynamic> loanData,
   ) async {
-    Navigator.pop(context);
+    context.pop();
     setState(() => _isLoading = true);
 
     try {
@@ -541,7 +542,7 @@ class _ApproveBannerState extends State<_ApproveBanner> {
         .collection('loans')
         .doc(widget.loanId)
         .update({'status': 'declined'});
-    if (mounted) Navigator.pop(context);
+    if (mounted) context.pop();
   }
 
   @override

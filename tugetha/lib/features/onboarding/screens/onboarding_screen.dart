@@ -1,7 +1,7 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
-import '../../auth/screens/phone_auth_screen.dart';
 
 class OnboardingScreen extends StatefulWidget {
   const OnboardingScreen({super.key});
@@ -47,10 +47,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   }
 
   void _goToAuth() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (_) => const PhoneAuthScreen()),
-    );
+    context.go('/phoneAuth');
   }
 
   @override

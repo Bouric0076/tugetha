@@ -40,7 +40,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${poppins.variable} antialiased`}>
+    <html
+      lang="en"
+      className={`${poppins.variable} antialiased`}
+      data-scroll-behavior="smooth"
+    >
       <body className="min-h-screen font-sans">{children}</body>
     </html>
   );

@@ -21,12 +21,12 @@ const testimonials = [
 
 export function TestimonialsSection() {
   return (
-    <section className="bg-white px-6 py-28 lg:px-10">
+    <section className="bg-white px-6 py-24 lg:px-10">
       <div className="mx-auto max-w-7xl">
-        <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
           Loved by circles
         </p>
-        <h2 className="mt-4 text-4xl font-extrabold leading-tight text-ink md:text-5xl">
+        <h2 className="mt-4 text-4xl font-bold leading-tight text-ink md:text-5xl">
           Real people. Real impact.
         </h2>
 
@@ -38,7 +38,7 @@ export function TestimonialsSection() {
             >
               <div
                 aria-hidden="true"
-                className="text-6xl font-extrabold leading-none text-gold"
+                className="text-5xl font-bold leading-none text-gold"
               >
                 “
               </div>
@@ -46,11 +46,11 @@ export function TestimonialsSection() {
                 {testimonial.quote}
               </blockquote>
               <figcaption className="mt-8 flex items-center gap-3">
-                <div className="flex h-11 w-11 items-center justify-center rounded-full bg-primary text-sm font-bold text-white">
+                <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary text-sm font-semibold text-white">
                   {testimonial.name[0]}
                 </div>
                 <div>
-                  <p className="font-bold text-ink">{testimonial.name}</p>
+                  <p className="font-semibold text-ink">{testimonial.name}</p>
                   <p className="text-sm text-muted">{testimonial.role}</p>
                 </div>
               </figcaption>

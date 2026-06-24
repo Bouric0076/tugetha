@@ -27,14 +27,14 @@ const scenarios = [
 
 export function ScenariosSection() {
   return (
-    <section id="scenarios" className="bg-white px-6 py-28 lg:px-10">
+    <section id="scenarios" className="bg-white px-6 py-24 lg:px-10">
       <div className="mx-auto max-w-7xl">
         <div className="grid gap-12 lg:grid-cols-[0.65fr_1.35fr]">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
               Built for every circle
             </p>
-            <h2 className="mt-4 text-4xl font-extrabold leading-tight text-ink md:text-5xl">
+            <h2 className="mt-4 text-4xl font-bold leading-tight text-ink md:text-5xl">
               Different goals. One trusted place.
             </h2>
             <p className="mt-6 text-lg leading-8 text-muted">
@@ -46,10 +46,10 @@ export function ScenariosSection() {
           <div className="grid gap-4 md:grid-cols-2">
             {scenarios.map((scenario) => (
               <article
-                className="rounded-lg border border-line bg-cream p-6"
+                className="rounded-lg border border-line bg-cream p-6 transition-colors hover:bg-soft"
                 key={scenario.title}
               >
-                <h3 className="text-2xl font-extrabold leading-tight text-ink">
+                <h3 className="text-2xl font-semibold leading-tight text-ink">
                   {scenario.title}
                 </h3>
                 <div className="mt-7 space-y-5">
@@ -59,7 +59,7 @@ export function ScenariosSection() {
                     ["Outcome", scenario.outcome],
                   ].map(([label, text]) => (
                     <div className="border-t border-line pt-4" key={label}>
-                      <p className="text-xs font-bold uppercase tracking-[0.14em] text-primary">
+                      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-primary">
                         {label}
                       </p>
                       <p className="mt-2 text-sm leading-6 text-muted">

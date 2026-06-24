@@ -1,9 +1,10 @@
+import Image from "next/image";
 import { MarketingNav } from "@/components/marketing/marketing-nav";
 
 const trustPoints = [
   {
     title: "Shared visibility",
-    text: "Everyone sees the same records.",
+    text: "Everyone works from the same record.",
     icon: "M4 17v-1a4 4 0 0 1 4-4h1m7 5v-1a4 4 0 0 0-4-4h-1M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-4 12v-7m-3 3.5h6",
   },
   {
@@ -43,125 +44,85 @@ function Icon({ path }: { path: string }) {
 export function HeroSection() {
   return (
     <section className="bg-cream">
-      <div className="mx-auto w-full max-w-7xl px-6 py-6 lg:px-10">
-        <div className="-mx-6 -my-6 lg:-mx-10">
-          <MarketingNav />
-        </div>
+      <div className="relative min-h-[780px] overflow-hidden bg-ink text-white">
+        <Image
+          alt="A close circle of hands stacked together, representing shared trust and community support"
+          className="object-cover object-center"
+          fill
+          priority
+          sizes="100vw"
+          src="/brand/tugetha-hero-community.jpg"
+        />
+        <div className="absolute inset-0 bg-[var(--hero-overlay)]" />
 
-        <div className="grid items-center gap-14 py-16 md:py-20 lg:grid-cols-[1fr_0.95fr] lg:py-24">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
-              The trusted circle for shared money goals
-            </p>
+        <div className="relative z-10">
+          <MarketingNav tone="dark" />
 
-            <h1 className="mt-5 max-w-4xl text-5xl font-extrabold leading-[1.02] text-ink md:text-7xl lg:text-[84px]">
-              Money works better when your circle works together.
-            </h1>
+          <div className="mx-auto flex min-h-[660px] max-w-7xl items-center px-6 pb-20 pt-16 lg:px-10">
+            <div className="max-w-4xl">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gold">
+                The trusted circle for shared money goals
+              </p>
 
-            <p className="mt-7 max-w-2xl text-lg leading-8 text-muted md:text-xl md:leading-9">
-              Manage shared savings, group goals, peer lending and chama
-              contributions from one trusted platform.
-            </p>
+              <h1 className="mt-5 max-w-4xl text-5xl font-bold leading-[1.05] md:text-7xl lg:text-[84px]">
+                Your circle. Your goals. Better together.
+              </h1>
 
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <a
-                href="/waitlist"
-                className="inline-flex min-h-12 items-center justify-center gap-3 rounded-lg bg-primary px-7 text-sm font-bold text-white hover:bg-ink"
-              >
-                Join waitlist
-                <span aria-hidden="true">→</span>
-              </a>
-              <a
-                href="#how-it-works"
-                className="inline-flex min-h-12 items-center justify-center gap-3 rounded-lg border border-line bg-white px-7 text-sm font-bold text-ink hover:border-primary hover:text-primary"
-              >
-                See how it works
-                <span aria-hidden="true">↓</span>
-              </a>
-            </div>
-          </div>
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-neutral md:text-xl md:leading-9">
+                Manage shared savings, group goals, peer lending and chama
+                contributions from one trusted platform.
+              </p>
 
-          <div className="mx-auto w-full max-w-[560px]">
-            <div className="relative aspect-square min-h-[360px]">
-              <div className="absolute inset-[9%] rounded-full border border-dashed border-gold/45" />
-              <div className="absolute inset-[23%] rounded-full border-[10px] border-line" />
-              <svg className="absolute inset-[23%]" viewBox="0 0 220 220">
-                <circle
-                  cx="110"
-                  cy="110"
-                  fill="none"
-                  r="96"
-                  stroke="#2D1B8C"
-                  strokeDasharray="434 604"
-                  strokeLinecap="round"
-                  strokeWidth="10"
-                  transform="rotate(-90 110 110)"
-                />
-                <circle
-                  cx="110"
-                  cy="110"
-                  fill="none"
-                  r="96"
-                  stroke="#D4A017"
-                  strokeDasharray="124 604"
-                  strokeLinecap="round"
-                  strokeWidth="10"
-                  transform="rotate(168 110 110)"
-                />
-              </svg>
-
-              <div className="absolute left-1/2 top-1/2 flex h-40 w-40 -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center rounded-full bg-white text-center">
-                <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-cream text-primary">
-                  <Icon path="M8 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8Zm8 0a4 4 0 1 0 0-8 4 4 0 0 0 0 8ZM3 21a5 5 0 0 1 10 0m-2 0a5 5 0 0 1 10 0" />
-                </div>
-                <p className="text-xs font-semibold text-muted">
-                  Diani Trip Fund
-                </p>
-                <p className="mt-1 text-2xl font-extrabold text-ink">
-                  KES 80,000
-                </p>
-                <p className="mt-1 text-sm font-bold text-emerald">
-                  72% funded
-                </p>
+              <div className="mt-10 flex flex-col gap-4 sm:flex-row">
+                <a
+                  href="/waitlist"
+                  className="inline-flex min-h-12 items-center justify-center gap-3 rounded-lg bg-white px-7 text-sm font-semibold text-primary hover:bg-gold hover:text-ink"
+                >
+                  Join waitlist
+                  <span aria-hidden="true">→</span>
+                </a>
+                <a
+                  href="#how-it-works"
+                  className="inline-flex min-h-12 items-center justify-center gap-3 rounded-lg border border-white bg-transparent px-7 text-sm font-semibold text-white hover:bg-white hover:text-primary"
+                >
+                  See how it works
+                  <span aria-hidden="true">↓</span>
+                </a>
               </div>
 
-              {[
-                ["Mercy", "top-0 left-1/2 -translate-x-1/2", "bg-gold"],
-                ["Brian", "left-0 top-1/2 -translate-y-1/2", "bg-emerald"],
-                ["Kevin", "right-0 top-1/2 -translate-y-1/2", "bg-primary"],
-                ["Amina", "bottom-7 left-[13%]", "bg-primary-light"],
-                ["James", "bottom-7 right-[13%]", "bg-ink"],
-              ].map(([name, position, color]) => (
-                <div
-                  className={`absolute ${position} flex items-center gap-3`}
-                  key={name}
-                >
-                  <span
-                    className={`flex h-14 w-14 items-center justify-center rounded-full border-4 border-cream ${color} text-sm font-bold text-white`}
+              <div className="mt-12 grid max-w-xl grid-cols-3 border-y border-primary-light py-6">
+                {[
+                  ["Save", "together"],
+                  ["Lend", "responsibly"],
+                  ["Grow", "steadily"],
+                ].map(([value, label]) => (
+                  <div
+                    className="border-r border-primary-light pr-4 last:border-r-0"
+                    key={value}
                   >
-                    {name[0]}
-                  </span>
-                  <span className="hidden text-sm font-semibold text-ink sm:block">
-                    {name}
-                  </span>
-                </div>
-              ))}
+                    <p className="text-lg font-semibold text-white">{value}</p>
+                    <p className="mt-1 text-sm text-neutral">{label}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        <div className="mb-4 rounded-lg border border-line bg-white px-6 py-8 md:px-10">
-          <p className="text-center text-lg font-bold text-ink">
+      <div className="mx-auto w-full max-w-7xl px-6 py-16 lg:px-10">
+        <div className="rounded-lg border border-line bg-white px-6 py-8 md:px-10">
+          <p className="text-center text-lg font-semibold text-ink">
             Trusted by circles, families and chama groups
           </p>
           <div className="mt-8 grid gap-6 md:grid-cols-4">
             {trustPoints.map((point) => (
               <div className="flex gap-4" key={point.title}>
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-cream text-primary">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-soft text-primary">
                   <Icon path={point.icon} />
                 </div>
                 <div>
-                  <p className="font-bold text-ink">{point.title}</p>
+                  <p className="font-semibold text-ink">{point.title}</p>
                   <p className="mt-1 text-sm leading-6 text-muted">
                     {point.text}
                   </p>

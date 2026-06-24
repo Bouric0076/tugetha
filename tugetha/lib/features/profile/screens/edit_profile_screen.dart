@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
@@ -37,7 +38,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   }
 
   Future<void> _pickImage(ImageSource source) async {
-    Navigator.pop(context);
+    context.pop();
     final picker = ImagePicker();
     final picked = await picker.pickImage(
       source: source,
@@ -98,7 +99,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                       label: 'Remove',
                       color: AppColors.error,
                       onTap: () {
-                        Navigator.pop(context);
+                        context.pop();
                         setState(() => _profileImage = null);
                       },
                     ),
@@ -143,7 +144,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
           ),
         );
-        Navigator.pop(context);
+        context.pop();
       }
     } catch (e) {
       if (!mounted) return;
@@ -179,7 +180,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             Icons.arrow_back_ios_new_rounded,
             size: 20,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
         ),
         actions: [
           TextButton(

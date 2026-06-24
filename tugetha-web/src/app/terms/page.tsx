@@ -1,5 +1,5 @@
 import { SiteFooter } from "@/components/footer/site-footer";
-import { PageHero, PageSection } from "@/components/marketing/page-layout";
+import { CompactPageHero, PageSection } from "@/components/marketing/page-layout";
 
 const terms = [
   ["Early access", "Joining the waitlist does not guarantee immediate access. Tugetha may invite groups in phases as the product matures."],
@@ -11,7 +11,7 @@ const terms = [
 export default function TermsPage() {
   return (
     <main className="min-h-screen bg-cream text-ink">
-      <PageHero
+      <CompactPageHero
         eyebrow="Terms of Service"
         title="Clear terms for a product built on shared trust."
         body="These launch-stage terms cover Tugetha’s waitlist, website and early access communications."
@@ -20,7 +20,7 @@ export default function TermsPage() {
         <div className="space-y-5">
           {terms.map(([title, text]) => (
             <section className="rounded-lg border border-line bg-cream p-6" key={title}>
-              <h2 className="text-2xl font-extrabold">{title}</h2>
+              <h2 className="text-2xl font-semibold">{title}</h2>
               <p className="mt-3 leading-7 text-muted">{text}</p>
             </section>
           ))}

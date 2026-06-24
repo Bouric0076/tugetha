@@ -1,11 +1,10 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../services/auth_service.dart';
 import '../../../services/firestore_service.dart';
-import '../../goals/screens/create_goal_screen.dart';
-import '../../goals/screens/goal_detail_screen.dart';
 
 class GroupDetailScreen extends StatelessWidget {
   final String groupId;
@@ -38,7 +37,7 @@ class GroupDetailScreen extends StatelessWidget {
                 color: Colors.white,
                 size: 20,
               ),
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => context.pop(),
             ),
             actions: [
               IconButton(
@@ -150,14 +149,7 @@ class GroupDetailScreen extends StatelessWidget {
                         ),
                       ),
                       ElevatedButton.icon(
-                        onPressed: () => Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => CreateGoalScreen(
-                              groupId: groupId,
-                            ),
-                          ),
-                        ),
+                        onPressed: () => context.push('/createGoal', extra: groupId),
                         icon: const Icon(
                           Icons.add_rounded,
                           size: 16,
@@ -304,7 +296,7 @@ class GroupDetailScreen extends StatelessWidget {
                         'Join my Tugetha group! Code: $inviteCode\nGroup ID: $groupId',
                   ),
                 );
-                Navigator.pop(context);
+                context.pop();
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text(
@@ -528,16 +520,7 @@ class _GoalsList extends StatelessWidget {
             final progress = target > 0 ? current / target : 0.0;
 
             return GestureDetector(
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => GoalDetailScreen(
-                    goalId: doc.id,
-                    groupId: groupId,
-                    data: data,
-                  ),
-                ),
-              ),
+              onTap: () => context.push('/goalDetail', extra: {'goalId': doc.id, 'groupId': groupId, 'data': data}),
               child: Container(
                 margin: const EdgeInsets.only(bottom: 12),
                 padding: const EdgeInsets.all(16),

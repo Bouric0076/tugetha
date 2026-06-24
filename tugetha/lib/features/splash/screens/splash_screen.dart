@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -6,9 +7,6 @@ import '../../../core/constants/app_colors.dart';
 import '../../../core/constants/app_strings.dart';
 import '../../../services/auth_service.dart';
 import '../../../services/firestore_service.dart';
-import '../../onboarding/screens/onboarding_screen.dart';
-import '../../home/screens/home_screen.dart';
-import '../../auth/screens/profile_setup_screen.dart';
 
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
@@ -50,12 +48,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     if (user == null) {
       // Not logged in → Onboarding
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const OnboardingScreen(),
-        ),
-      );
+      context.go('/onboarding');
       return;
     }
 
@@ -66,18 +59,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen>
 
     if (exists) {
       // Profile complete → Home
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (_) => const HomeScreen()),
-      );
+      context.go('/home');
     } else {
       // Logged in but no profile → Profile setup
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (_) => const ProfileSetupScreen(),
-        ),
-      );
+      context.go('/profileSetup');
     }
   }
 

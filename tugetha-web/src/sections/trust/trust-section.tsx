@@ -23,16 +23,16 @@ const trustItems = [
 
 export function TrustSection() {
   return (
-    <section id="trust" className="bg-primary px-6 py-28 text-white lg:px-10">
+    <section id="trust" className="bg-primary px-6 py-24 text-white lg:px-10">
       <div className="mx-auto grid max-w-7xl gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.18em] text-gold">
+          <p className="text-xs font-semibold uppercase tracking-[0.16em] text-gold">
             Trust & security
           </p>
-          <h2 className="mt-4 text-4xl font-extrabold leading-tight md:text-6xl">
+          <h2 className="mt-4 text-4xl font-bold leading-tight md:text-6xl">
             Trust is not a feature. It is the foundation.
           </h2>
-          <p className="mt-7 max-w-xl text-lg leading-8 text-white/72">
+          <p className="mt-7 max-w-xl text-lg leading-8 text-neutral">
             Shared money only works when people can see the same truth. Tugetha
             is built around records, visibility and accountable activity from
             the first contribution.
@@ -43,9 +43,9 @@ export function TrustSection() {
           {trustItems.map((item) => (
             <div
               key={item.title}
-              className="rounded-lg border border-white/15 bg-white/10 p-6"
+              className="rounded-lg border border-primary-light bg-ink p-6"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-white/10 text-gold">
+              <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-light text-gold">
                 <svg
                   aria-hidden="true"
                   className="h-6 w-6"
@@ -59,8 +59,8 @@ export function TrustSection() {
                   <path d={item.icon} />
                 </svg>
               </div>
-              <p className="mt-8 text-lg font-bold">{item.title}</p>
-              <p className="mt-3 text-sm leading-6 text-white/70">
+              <p className="mt-8 text-lg font-semibold">{item.title}</p>
+              <p className="mt-3 text-sm leading-6 text-neutral">
                 {item.text}
               </p>
             </div>

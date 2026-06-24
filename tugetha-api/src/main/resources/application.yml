@@ -3,9 +3,9 @@ spring:
     name: tugetha-api
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/tugetha
-    username: tugetha_user
-    password: tugethaadmin2025%
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/tugetha}
+    username: ${DB_USERNAME:tugetha_user}
+    password: ${DB_PASSWORD:}
     driver-class-name: org.postgresql.Driver
 
   jpa:
@@ -22,8 +22,17 @@ spring:
 
   data:
     redis:
-      host: localhost
-      port: 6379
+      repositories:
+        enabled: false
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+tugetha:
+  auth:
+    provider: ${AUTH_PROVIDER:firebase}
+  firebase:
+    credentials-path: ${FIREBASE_CREDENTIALS_PATH:}
+    credentials-json: ${FIREBASE_CREDENTIALS_JSON:}
 
 server:
-  port: 8080
+  port: ${PORT:8080}

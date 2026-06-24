@@ -1,10 +1,9 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../services/auth_service.dart';
-import 'otp_screen.dart';
-import 'pin_setup_screen.dart';
 
 class PhoneAuthScreen extends StatefulWidget {
   const PhoneAuthScreen({super.key});
@@ -27,26 +26,22 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
     await AuthService.sendOtp(
       phoneNumber: _fullPhone,
       onCodeSent: (verificationId) {
+        if (!mounted) return;
         setState(() => _isLoading = false);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (_) => OtpScreen(
-              phoneNumber: _fullPhone,
-              verificationId: verificationId,
-            ),
-          ),
-        );
+        context.push('/otp', extra: {
+          'phoneNumber': _fullPhone,
+          'verificationId': verificationId,
+        });
       },
       onError: (error) {
+        if (!mounted) return;
         setState(() => _isLoading = false);
-        final errorMessage = error.contains('BILLING_NOT_ENABLED')
-            ? 'Something went wrong. Please try again later.'
-            : error;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
-              errorMessage,
+              error.contains('BILLING_NOT_ENABLED')
+                  ? 'Something went wrong. Please try again later.'
+                  : error,
               style: const TextStyle(fontFamily: 'Poppins'),
             ),
             backgroundColor: AppColors.error,
@@ -54,16 +49,32 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
         );
       },
       onAutoVerified: (credential) async {
-        final result =
-            await FirebaseAuth.instance.signInWithCredential(credential);
-        if (mounted && result.user != null) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const PinSetupScreen(),
+        try {
+          final result =
+              await FirebaseAuth.instance.signInWithCredential(credential);
+          if (mounted && result.user != null) {
+            setState(() => _isLoading = false);
+            context.go('/pinSetup');
+          }
+        } on FirebaseAuthException catch (error) {
+          if (!mounted) return;
+          setState(() => _isLoading = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                error.code == 'invalid-verification-code' 
+                    ? 'Invalid code.' 
+                    : 'Automatic verification failed. Please enter the code manually.',
+                style: const TextStyle(fontFamily: 'Poppins'),
+              ),
+              backgroundColor: AppColors.error,
             ),
           );
         }
+      },
+      onAutoRetrievalTimeout: (verificationId) {
+        if (!mounted) return;
+        setState(() => _isLoading = false);
       },
     );
   }
@@ -214,6 +225,10 @@ class _PhoneAuthScreenState extends State<PhoneAuthScreen> {
                 // Continue button
                 ElevatedButton(
                   onPressed: _isLoading ? null : _onContinue,
+                  style: ElevatedButton.styleFrom(
+                    disabledBackgroundColor: AppColors.primary,
+                    disabledForegroundColor: AppColors.white,
+                  ),
                   child: _isLoading
                       ? const SizedBox(
                           width: 22,

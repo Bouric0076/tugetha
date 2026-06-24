@@ -1,14 +1,10 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/providers/app_providers.dart';
-import '../../groups/screens/create_group_screen.dart';
-import '../../goals/screens/create_goal_screen.dart';
-import '../../loans/screens/request_loan_screen.dart';
 
-import '../../wallet/screens/wallet_screen.dart';
-import '../../wallet/screens/topup_screen.dart';
 
 class HomeTab extends ConsumerWidget {
   const HomeTab({super.key});
@@ -82,7 +78,7 @@ class HomeTab extends ConsumerWidget {
             ),
             const SizedBox(height: 32),
             ElevatedButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => context.pop(),
               child: const Text('Got it'),
             ),
             const SizedBox(height: 16),
@@ -500,10 +496,7 @@ class _WalletCardState extends State<_WalletCard> {
               _WalletAction(
                 icon: Icons.history_rounded,
                 label: 'History',
-                onTap: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (_) => const WalletScreen()),
-                ),
+                onTap: () => context.push('/wallet'),
               ),
             ],
           ),
@@ -573,30 +566,21 @@ class _QuickActions extends StatelessWidget {
         label: 'New Group',
         color: AppColors.primary,
         bg: AppColors.primaryLighter,
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const CreateGroupScreen()),
-        ),
+        onTap: () => context.push('/createGroup'),
       ),
       _ActionData(
         icon: Icons.flag_outlined,
         label: 'New Goal',
         color: AppColors.accent,
         bg: AppColors.accentLighter,
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const CreateGoalScreen()),
-        ),
+        onTap: () => context.push('/createGoal'),
       ),
       _ActionData(
         icon: Icons.request_page_outlined,
         label: 'Request\nLoan',
         color: const Color(0xFF185FA5),
         bg: const Color(0xFFE6F1FB),
-        onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(builder: (_) => const RequestLoanScreen()),
-        ),
+        onTap: () => context.push('/requestLoan'),
       ),
       _ActionData(
         icon: Icons.send_outlined,
@@ -696,10 +680,7 @@ class _ActiveGoals extends ConsumerWidget {
             description:
                 'Create a group and set a goal to start saving with your friends.',
             buttonLabel: 'Create New Goal',
-            onButtonPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const CreateGoalScreen()),
-            ),
+            onButtonPressed: () => context.push('/createGoal'),
           );
         }
 
@@ -710,8 +691,8 @@ class _ActiveGoals extends ConsumerWidget {
               padding: const EdgeInsets.only(bottom: 12),
               child: _GoalCard(
                 title: '${data['emoji'] ?? '🎯'} ${data['name']}',
-                current: 0,
-                target: 0,
+                current: (data['currentAmount'] as num?)?.toDouble() ?? 0,
+                target: (data['targetAmount'] as num?)?.toDouble() ?? 0,
                 members: (data['members'] as List?)?.length ?? 1,
                 color: AppColors.primary,
               ),
@@ -851,10 +832,7 @@ class _RecentActivity extends ConsumerWidget {
             description:
                 'Top up your wallet or send money to see your activity here.',
             buttonLabel: 'Top Up Wallet',
-            onButtonPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (_) => const TopUpScreen()),
-            ),
+            onButtonPressed: () => context.push('/topup'),
           );
         }
 

@@ -1,137 +1,125 @@
 const features = [
   {
     eyebrow: "Shared savings",
-    title: "A clearer way to collect and grow money together.",
-    text: "Create circles, set contribution rules, track who has paid and keep progress visible without chasing screenshots in group chats.",
+    title: "Collect contributions without chasing screenshots.",
+    text: "Create circles, set contribution rules, track who has paid and keep progress visible to every member.",
     metric: "KES 24,560",
-    label: "this month",
-    accent: "bg-primary",
-    rows: ["Monthly contribution", "Member status", "Upcoming collection"],
+    label: "collected this month",
+    status: "12 active members",
+    progress: "w-[68%]",
+    icon: "M4 17v-1a4 4 0 0 1 4-4h1m7 5v-1a4 4 0 0 0-4-4h-1M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-4 12v-7m-3 3.5h6",
   },
   {
     eyebrow: "Trusted lending",
-    title: "Peer lending with expectations everyone can see.",
-    text: "Members can request, approve and repay loans with clear terms, repayment dates and activity history attached to the circle.",
+    title: "Make peer lending clear before money moves.",
+    text: "Members can request, approve and repay loans with terms, dates and activity history attached to the circle.",
     metric: "KES 15,000",
-    label: "approved",
-    accent: "bg-emerald",
-    rows: ["Loan request", "Approval trail", "Repayment schedule"],
+    label: "approved request",
+    status: "Due in 30 days",
+    progress: "w-[45%]",
+    icon: "M7 11h10m-8 4h6M5 5h14v14H5V5Zm3-3v3m8-3v3",
   },
   {
     eyebrow: "Goal tracking",
-    title: "Every shared goal gets a visible path to completion.",
-    text: "Plan for trips, school fees, emergencies or investments with funded amounts, target dates and milestone progress in one place.",
+    title: "Give every shared goal a visible path.",
+    text: "Plan for trips, school fees, emergencies or investments with funded amounts, target dates and milestones.",
     metric: "72%",
-    label: "funded",
-    accent: "bg-gold",
-    rows: ["Target amount", "Progress history", "Next milestone"],
+    label: "Diani Trip Fund",
+    status: "KES 57,600 of 80,000",
+    progress: "w-[72%]",
+    icon: "M4 17 9 12l3 3 7-8m0 0v5m0-5h-5",
   },
   {
     eyebrow: "Circle accountability",
-    title: "Trust grows when every member works from the same record.",
+    title: "Keep one shared record for the whole group.",
     text: "Contribution history, repayments, withdrawals and member activity stay transparent so disputes are easier to prevent.",
     metric: "100%",
-    label: "visible",
-    accent: "bg-ink",
-    rows: ["Activity feed", "Member visibility", "Ledger records"],
+    label: "activity visibility",
+    status: "Ledger always available",
+    progress: "w-full",
+    icon: "M7 3h10v18H7V3Zm3 5h4m-4 4h4m-4 4h2",
   },
 ];
 
+function FeatureIcon({ path }: { path: string }) {
+  return (
+    <svg
+      aria-hidden="true"
+      className="h-6 w-6"
+      fill="none"
+      stroke="currentColor"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeWidth="1.7"
+      viewBox="0 0 24 24"
+    >
+      <path d={path} />
+    </svg>
+  );
+}
+
 export function FeaturePillars() {
   return (
-    <section id="features" className="bg-cream px-6 py-28 lg:px-10">
+    <section id="features" className="bg-cream px-6 py-24 lg:px-10">
       <div className="mx-auto max-w-7xl">
-        <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
+        <div className="grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
               Feature pillars
             </p>
-            <h2 className="mt-4 text-4xl font-extrabold leading-tight text-ink md:text-5xl">
-              Built around the way people already support each other.
+            <h2 className="mt-4 text-4xl font-bold leading-tight text-ink md:text-5xl">
+              Built around how people already support each other.
             </h2>
           </div>
 
-          <p className="max-w-2xl text-lg leading-8 text-ink/60">
-            Tugetha does not try to replace trust. It gives trusted groups the
-            structure, visibility, and records they need to manage money better.
+          <p className="max-w-2xl text-lg leading-8 text-muted">
+            Tugetha does not replace trust. It gives trusted groups the
+            structure, visibility and records they need to manage money better.
           </p>
         </div>
 
-        <div className="mt-20 space-y-20 lg:space-y-28">
-          {features.map((feature, index) => (
-            <div
+        <div className="mt-16 divide-y divide-line rounded-lg border border-line bg-white">
+          {features.map((feature) => (
+            <article
+              className="grid gap-8 p-6 md:p-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center"
               key={feature.eyebrow}
-              className={`grid min-h-[520px] gap-10 rounded-lg border border-line bg-white p-6 md:p-10 lg:grid-cols-2 lg:items-center ${
-                index % 2 === 1 ? "lg:[&>div:first-child]:order-2" : ""
-              }`}
             >
-              <div>
-                <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">
-                  {feature.eyebrow}
-                </p>
-                <h3 className="mt-4 max-w-xl text-4xl font-extrabold leading-tight text-ink md:text-5xl">
-                  {feature.title}
-                </h3>
-                <p className="mt-6 max-w-xl text-lg leading-8 text-muted">
-                  {feature.text}
-                </p>
-              </div>
-
-              <div className="rounded-lg border border-line bg-cream p-5 md:p-7">
-                <div className="rounded-lg bg-white p-6">
-                  <div className="flex items-start justify-between gap-5">
-                    <div>
-                      <p className="text-sm font-semibold text-muted">
-                        {feature.eyebrow}
-                      </p>
-                      <p className="mt-3 text-4xl font-extrabold text-ink">
-                        {feature.metric}
-                      </p>
-                      <p className="mt-1 text-sm font-bold text-emerald">
-                        {feature.label}
-                      </p>
-                    </div>
-                    <div
-                      className={`flex h-14 w-14 items-center justify-center rounded-lg ${feature.accent} text-white`}
-                    >
-                      <svg
-                        aria-hidden="true"
-                        className="h-7 w-7"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.7"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M4 17 9 12l3 3 7-8m0 0v5m0-5h-5" />
-                      </svg>
-                    </div>
-                  </div>
-
-                  <div className="mt-8 space-y-4">
-                    {feature.rows.map((row, rowIndex) => (
-                      <div
-                        className="flex items-center justify-between border-t border-line pt-4"
-                        key={row}
-                      >
-                        <div>
-                          <p className="font-bold text-ink">{row}</p>
-                          <p className="mt-1 text-sm text-muted">
-                            {rowIndex === 0
-                              ? "Recorded today"
-                              : "Visible to every member"}
-                          </p>
-                        </div>
-                        <span className="text-sm font-bold text-primary">
-                          {rowIndex === 0 ? "Active" : "Clear"}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
+              <div className="grid gap-5 sm:grid-cols-[64px_1fr]">
+                <div className="flex h-14 w-14 items-center justify-center rounded-lg bg-soft text-primary">
+                  <FeatureIcon path={feature.icon} />
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-primary">
+                    {feature.eyebrow}
+                  </p>
+                  <h3 className="mt-3 max-w-xl text-2xl font-semibold leading-snug text-ink md:text-3xl">
+                    {feature.title}
+                  </h3>
+                  <p className="mt-4 max-w-2xl text-base leading-7 text-muted">
+                    {feature.text}
+                  </p>
                 </div>
               </div>
-            </div>
+
+              <div className="border-t border-line pt-6 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-0">
+                <div className="flex flex-wrap items-end justify-between gap-5">
+                  <div>
+                    <p className="text-sm font-medium text-muted">
+                      {feature.label}
+                    </p>
+                    <p className="mt-2 text-4xl font-bold text-ink">
+                      {feature.metric}
+                    </p>
+                  </div>
+                  <p className="rounded-md bg-soft px-3 py-2 text-sm font-medium text-primary">
+                    {feature.status}
+                  </p>
+                </div>
+                <div className="mt-6 h-2 overflow-hidden rounded-md bg-neutral">
+                  <div className={`h-full rounded-md bg-primary ${feature.progress}`} />
+                </div>
+              </div>
+            </article>
           ))}
         </div>
       </div>

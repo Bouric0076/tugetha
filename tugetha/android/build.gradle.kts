@@ -1,13 +1,3 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath("com.google.gms:google-services:4.4.0")
-    }
-}
-
 allprojects {
     repositories {
         google()
@@ -28,6 +18,16 @@ subprojects {
 subprojects {
     if (project.path != ":app") {
         evaluationDependsOn(":app")
+    }
+    afterEvaluate {
+        if (project.extensions.findByName("android") != null) {
+            project.extensions.configure<com.android.build.gradle.BaseExtension>("android") {
+                compileSdkVersion(36)
+                defaultConfig {
+                    targetSdkVersion(36)
+                }
+            }
+        }
     }
 }
 

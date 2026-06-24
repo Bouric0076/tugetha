@@ -1,7 +1,7 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../../../core/constants/app_colors.dart';
-import 'profile_setup_screen.dart';
 
 class PinSetupScreen extends StatefulWidget {
   const PinSetupScreen({super.key});
@@ -78,10 +78,7 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
         await prefs.setString('user_pin', _pin);
 
         if (mounted) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const ProfileSetupScreen()),
-          );
+          context.go('/profileSetup');
         }
       } catch (e) {
         if (mounted) {
@@ -132,140 +129,128 @@ class _PinSetupScreenState extends State<PinSetupScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              minHeight: MediaQuery.of(context).size.height -
-                  MediaQuery.of(context).padding.top,
-            ),
-            child: IntrinsicHeight(
-              child: Column(
-                children: [
-                  const SizedBox(height: 60),
+        child: Column(
+          children: [
+            const SizedBox(height: 40),
 
-                  // Icon
-                  Container(
-                    width: 64,
-                    height: 64,
-                    decoration: BoxDecoration(
-                      color: AppColors.primaryLighter,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Icon(
-                      Icons.lock_outline_rounded,
-                      color: AppColors.primary,
-                      size: 32,
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-
-                  // Title
-                  Text(
-                    _isConfirming ? 'Confirm your PIN' : 'Create your PIN',
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.dark,
-                      fontFamily: 'Poppins',
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-
-                  Text(
-                    _isConfirming
-                        ? 'Enter your PIN again to confirm'
-                        : 'Choose a 6-digit PIN to secure your account',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      color: AppColors.grey,
-                      fontFamily: 'Poppins',
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 40),
-
-                  // PIN dots
-                  _buildDots(currentPin),
-                  const SizedBox(height: 16),
-
-                  // Error message
-                  AnimatedOpacity(
-                    opacity: _hasError ? 1 : 0,
-                    duration: const Duration(milliseconds: 300),
-                    child: Text(
-                      _errorMessage,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        color: AppColors.error,
-                        fontFamily: 'Poppins',
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ),
-                  const Spacer(),
-
-                  // Keypad
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 40),
-                    child: GridView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: _keys.length,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                        childAspectRatio: 1.4,
-                        mainAxisSpacing: 8,
-                        crossAxisSpacing: 8,
-                      ),
-                      itemBuilder: (context, i) {
-                        final key = _keys[i];
-                        if (key.isEmpty) return const SizedBox();
-
-                        final isBackspace = key == '⌫';
-                        return InkWell(
-                          onTap: () => _onKeyTap(key),
-                          borderRadius: BorderRadius.circular(50),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: isBackspace
-                                  ? Colors.transparent
-                                  : AppColors.white,
-                              shape: BoxShape.circle,
-                              boxShadow: isBackspace
-                                  ? null
-                                  : [
-                                      BoxShadow(
-                                        color: Colors.black
-                                            .withValues(alpha: 0.05),
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 2),
-                                      )
-                                    ],
-                            ),
-                            child: Center(
-                              child: Text(
-                                key,
-                                style: TextStyle(
-                                  fontSize: isBackspace ? 22 : 24,
-                                  fontWeight: FontWeight.w600,
-                                  color: isBackspace
-                                      ? AppColors.grey
-                                      : AppColors.dark,
-                                  fontFamily: 'Poppins',
-                                ),
-                              ),
-                            ),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                ],
+            // Icon
+            Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                color: AppColors.primaryLighter,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: const Icon(
+                Icons.lock_outline_rounded,
+                color: AppColors.primary,
+                size: 32,
               ),
             ),
-          ),
+            const SizedBox(height: 24),
+
+            // Title
+            Text(
+              _isConfirming ? 'Confirm your PIN' : 'Create your PIN',
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: AppColors.dark,
+                fontFamily: 'Poppins',
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            Text(
+              _isConfirming
+                  ? 'Enter your PIN again to confirm'
+                  : 'Choose a 6-digit PIN to secure your account',
+              style: const TextStyle(
+                fontSize: 14,
+                color: AppColors.grey,
+                fontFamily: 'Poppins',
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 32),
+
+            // PIN dots
+            _buildDots(currentPin),
+            const SizedBox(height: 16),
+
+            // Error message
+            AnimatedOpacity(
+              opacity: _hasError ? 1 : 0,
+              duration: const Duration(milliseconds: 300),
+              child: Text(
+                _errorMessage,
+                style: const TextStyle(
+                  fontSize: 13,
+                  color: AppColors.error,
+                  fontFamily: 'Poppins',
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+            ),
+            const Spacer(),
+
+            // Keypad
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 40),
+              child: GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: _keys.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio: 1.4,
+                  mainAxisSpacing: 8,
+                  crossAxisSpacing: 8,
+                ),
+                itemBuilder: (context, i) {
+                  final key = _keys[i];
+                  if (key.isEmpty) return const SizedBox();
+
+                  final isBackspace = key == '⌫';
+                  return InkWell(
+                    onTap: () => _onKeyTap(key),
+                    borderRadius: BorderRadius.circular(50),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: isBackspace
+                            ? Colors.transparent
+                            : AppColors.white,
+                        shape: BoxShape.circle,
+                        boxShadow: isBackspace
+                            ? null
+                            : [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.05),
+                                  blurRadius: 4,
+                                  offset: const Offset(0, 2),
+                                )
+                              ],
+                      ),
+                      child: Center(
+                        child: Text(
+                          key,
+                          style: TextStyle(
+                            fontSize: isBackspace ? 22 : 24,
+                            fontWeight: FontWeight.w600,
+                            color: isBackspace
+                                ? AppColors.grey
+                                : AppColors.dark,
+                            fontFamily: 'Poppins',
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 24),
+          ],
         ),
       ),
     );

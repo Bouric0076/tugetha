@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -97,7 +98,7 @@ class PaystackService {
             ),
             const SizedBox(height: 24),
             TextButton(
-              onPressed: () => Navigator.pop(context),
+              onPressed: () => context.pop(),
               child: const Text('Cancel'),
             ),
           ],
@@ -116,14 +117,14 @@ class PaystackService {
 
       if (status == 'success' || status == 'already_processed') {
         isVerified = true;
-        if (context.mounted) Navigator.pop(context);
+        if (context.mounted) context.pop();
         onCompleted(true);
         return;
       }
       attempts++;
     }
 
-    if (context.mounted) Navigator.pop(context);
+    if (context.mounted) context.pop();
     onCompleted(false);
   }
 }

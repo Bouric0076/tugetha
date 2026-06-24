@@ -1,10 +1,9 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/providers/app_providers.dart';
-import 'request_loan_screen.dart';
-import 'loan_detail_screen.dart';
 
 class LoansScreen extends ConsumerStatefulWidget {
   const LoansScreen({super.key});
@@ -55,12 +54,7 @@ class _LoansScreenState extends ConsumerState<LoansScreen>
                     ),
                   ),
                   ElevatedButton.icon(
-                    onPressed: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (_) => const RequestLoanScreen(),
-                      ),
-                    ).then((_) {
+                    onPressed: () => context.push('/requestLoan').then((_) {
                       ref.invalidate(borrowingLoansProvider);
                       ref.invalidate(lendingLoansProvider);
                     }),
@@ -357,16 +351,11 @@ class _LoanList extends StatelessWidget {
               loanId: doc.id,
               data: data,
               isBorrowing: isBorrowing,
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (_) => LoanDetailScreen(
-                    loanId: doc.id,
-                    data: data,
-                    isBorrowing: isBorrowing,
-                  ),
-                ),
-              ),
+              onTap: () => context.push('/loanDetail', extra: {
+                'loanId': doc.id,
+                'data': data,
+                'isBorrowing': isBorrowing,
+              }),
             );
           },
         );

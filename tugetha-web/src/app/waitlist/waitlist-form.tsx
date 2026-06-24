@@ -31,20 +31,60 @@ export function WaitlistForm() {
   }
 
   return (
-    <form className="min-w-0 rounded-lg border border-line bg-cream p-6" onSubmit={onSubmit}>
+    <form
+      className="min-w-0 rounded-lg border border-line bg-white p-6"
+      onSubmit={onSubmit}
+    >
       <div className="grid min-w-0 gap-4 md:grid-cols-2">
-        <input className="min-h-12 min-w-0 rounded-lg border border-line px-4 outline-none focus:border-primary" name="name" placeholder="Name" required />
-        <input className="min-h-12 min-w-0 rounded-lg border border-line px-4 outline-none focus:border-primary" name="email" placeholder="Email" required type="email" />
-        <input className="min-h-12 min-w-0 rounded-lg border border-line px-4 outline-none focus:border-primary" name="phone" placeholder="Phone" required type="tel" />
-        <select className="min-h-12 min-w-0 rounded-lg border border-line px-4 outline-none focus:border-primary" defaultValue="" name="interest" required>
-          <option disabled value="">Interest</option>
+        <label className="grid gap-2 text-sm font-medium text-ink">
+          Name
+          <input
+            className="min-h-12 min-w-0 rounded-lg border border-line bg-white px-4 text-base font-normal outline-none focus:border-primary"
+            name="name"
+            required
+          />
+        </label>
+        <label className="grid gap-2 text-sm font-medium text-ink">
+          Email
+          <input
+            className="min-h-12 min-w-0 rounded-lg border border-line bg-white px-4 text-base font-normal outline-none focus:border-primary"
+            name="email"
+            required
+            type="email"
+          />
+        </label>
+        <label className="grid gap-2 text-sm font-medium text-ink">
+          Phone
+          <input
+            className="min-h-12 min-w-0 rounded-lg border border-line bg-white px-4 text-base font-normal outline-none focus:border-primary"
+            name="phone"
+            required
+            type="tel"
+          />
+        </label>
+        <label className="grid gap-2 text-sm font-medium text-ink">
+          Interest
+          <select
+            className="min-h-12 min-w-0 rounded-lg border border-line bg-white px-4 text-base font-normal outline-none focus:border-primary"
+            defaultValue=""
+            name="interest"
+            required
+          >
+          <option disabled value="">Select one</option>
           {interests.map((interest) => (
             <option key={interest} value={interest}>{interest}</option>
           ))}
-        </select>
+          </select>
+        </label>
       </div>
-      <textarea className="mt-4 min-h-28 w-full min-w-0 rounded-lg border border-line px-4 py-3 outline-none focus:border-primary" name="notes" placeholder="Tell us about your circle" />
-      <button className="mt-5 min-h-12 w-full rounded-lg bg-primary px-6 text-sm font-bold text-white hover:bg-ink" disabled={status === "loading"}>
+      <label className="mt-4 grid gap-2 text-sm font-medium text-ink">
+        Tell us about your circle
+        <textarea
+          className="min-h-28 w-full min-w-0 rounded-lg border border-line bg-white px-4 py-3 text-base font-normal outline-none focus:border-primary"
+          name="notes"
+        />
+      </label>
+      <button className="mt-5 min-h-12 w-full rounded-lg bg-primary px-6 text-sm font-semibold text-white hover:bg-ink" disabled={status === "loading"}>
         {status === "loading" ? "Joining..." : "Join waitlist"}
       </button>
       {status === "sent" ? <p className="mt-4 text-sm font-semibold text-emerald">You are on the list. We will reach out with early access updates.</p> : null}

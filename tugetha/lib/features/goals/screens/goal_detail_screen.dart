@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -57,7 +58,7 @@ class GoalDetailScreen extends StatelessWidget {
                     color: Colors.white,
                     size: 20,
                   ),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => context.pop(),
                 ),
                 flexibleSpace: FlexibleSpaceBar(
                   background: Container(
@@ -370,7 +371,7 @@ class GoalDetailScreen extends StatelessWidget {
                     final reference = result['reference'];
 
                     if (context.mounted) {
-                      Navigator.pop(context); // Close amount sheet
+                      context.pop(); // Close amount sheet
 
                       // 2. Wait for STK Push and verification
                       await PaystackService.waitForStkPush(
@@ -405,7 +406,7 @@ class GoalDetailScreen extends StatelessWidget {
                     }
                   } catch (e) {
                     if (context.mounted) {
-                      Navigator.pop(context);
+                      context.pop();
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           content: Text(

@@ -1,13 +1,10 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../core/providers/app_providers.dart';
 import '../../../services/auth_service.dart';
-import 'edit_profile_screen.dart';
-import 'change_pin_screen.dart';
-import 'kyc_screen.dart';
-import '../../onboarding/screens/onboarding_screen.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -98,15 +95,10 @@ class ProfileScreen extends ConsumerWidget {
                         _MenuItem(
                           icon: Icons.person_outline_rounded,
                           label: 'Edit Profile',
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => EditProfileScreen(
-                                name: name,
-                                mpesaNumber: data?['mpesaNumber'] ?? '',
-                              ),
-                            ),
-                          ).then((_) => ref.invalidate(userStreamProvider)),
+                          onTap: () => context.push('/editProfile', extra: {
+                            'name': name,
+                            'mpesaNumber': data?['mpesaNumber'] ?? '',
+                          }).then((_) => ref.invalidate(userStreamProvider)),
                         ),
                         _MenuItem(
                           icon: Icons.phone_outlined,
@@ -122,24 +114,14 @@ class ProfileScreen extends ConsumerWidget {
                           trailingColor: kycStatus == 'verified'
                               ? AppColors.success
                               : AppColors.warning,
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const KycScreen(),
-                            ),
-                          ),
+                          onTap: () => context.push('/kyc'),
                         ),
                         const SizedBox(height: 20),
                         const _SectionLabel('Security'),
                         _MenuItem(
                           icon: Icons.lock_outline_rounded,
                           label: 'Change PIN',
-                          onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const ChangePinScreen(),
-                            ),
-                          ),
+                          onTap: () => context.push('/changePin'),
                         ),
                         _MenuItem(
                           icon: Icons.fingerprint_rounded,
@@ -836,20 +818,14 @@ class _SignOutButton extends StatelessWidget {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => context.pop(),
             child: const Text('Cancel'),
           ),
           ElevatedButton(
             onPressed: () async {
               await AuthService.signOut();
               if (context.mounted) {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (_) => const OnboardingScreen(),
-                  ),
-                  (_) => false,
-                );
+                context.go('/phoneAuth');
               }
             },
             style: ElevatedButton.styleFrom(
@@ -877,13 +853,7 @@ class _SignOutRedirectState extends State<_SignOutRedirect> {
     super.initState();
     Future.microtask(() {
       if (mounted) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(
-            builder: (_) => const _OnboardingPlaceholder(),
-          ),
-          (_) => false,
-        );
+        context.go('/onboarding');
       }
     });
   }
@@ -895,27 +865,6 @@ class _SignOutRedirectState extends State<_SignOutRedirect> {
       body: Center(
         child: CircularProgressIndicator(
           color: Colors.white,
-        ),
-      ),
-    );
-  }
-}
-
-class _OnboardingPlaceholder extends StatelessWidget {
-  const _OnboardingPlaceholder();
-
-  @override
-  Widget build(BuildContext context) {
-    // Import and use your actual OnboardingScreen
-    return const Scaffold(
-      backgroundColor: AppColors.background,
-      body: Center(
-        child: Text(
-          'Signed out successfully',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            color: AppColors.grey,
-          ),
         ),
       ),
     );

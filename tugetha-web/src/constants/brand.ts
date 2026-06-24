@@ -6,7 +6,7 @@ export const brand = {
     primaryLight: "#534AB7",
     emerald: "#0F6E56",
     gold: "#D4A017",
-    cream: "#FAF7F0",
+    cream: "#F7F7F5",
     ink: "#1A123D",
     white: "#FFFFFF",
   },

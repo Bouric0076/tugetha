@@ -47,13 +47,15 @@ export function SiteFooter() {
     <footer className="border-t border-line bg-white px-6 py-14 lg:px-10">
       <div className="mx-auto grid max-w-7xl gap-12 md:grid-cols-[1.2fr_2fr]">
         <div>
-          <Image
-            alt="Tugetha"
-            className="h-auto w-36"
-            height={72}
-            src="/brand/tugetha-logo.png"
-            width={260}
-          />
+          <div className="inline-flex rounded-lg border border-line bg-white px-3 py-2">
+            <Image
+              alt="Tugetha"
+              className="h-auto w-[128px]"
+              height={72}
+              src="/brand/tugetha-logo.png"
+              width={260}
+            />
+          </div>
           <p className="mt-5 max-w-xs text-sm leading-6 text-muted">
             The trusted circle for shared money goals.
           </p>
@@ -62,11 +64,11 @@ export function SiteFooter() {
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
           {columns.map((column) => (
             <div key={column.title}>
-              <p className="text-sm font-bold text-ink">{column.title}</p>
+              <p className="text-sm font-semibold text-ink">{column.title}</p>
               <div className="mt-4 space-y-3">
                 {column.links.map((link) => (
                   <Link
-                    className="block text-sm font-medium text-muted hover:text-primary"
+                    className="block text-sm font-medium text-muted hover:text-ink"
                     href={link.href}
                     key={link.label}
                   >

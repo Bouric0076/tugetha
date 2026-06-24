@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 
 class AuthService {
   static final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -27,21 +30,53 @@ class AuthService {
     required Function(String verificationId) onCodeSent,
     required Function(String error) onError,
     required Function(PhoneAuthCredential credential) onAutoVerified,
+    Function(String verificationId)? onAutoRetrievalTimeout,
   }) async {
-    await _auth.verifyPhoneNumber(
-      phoneNumber: phoneNumber,
-      verificationCompleted: (PhoneAuthCredential credential) {
-        onAutoVerified(credential);
-      },
-      verificationFailed: (FirebaseAuthException e) {
-        onError(e.message ?? 'Verification failed');
-      },
-      codeSent: (String verificationId, int? resendToken) {
-        onCodeSent(verificationId);
-      },
-      codeAutoRetrievalTimeout: (String verificationId) {},
-      timeout: const Duration(seconds: 60),
-    );
+    try {
+      await _auth.verifyPhoneNumber(
+        phoneNumber: phoneNumber,
+        verificationCompleted: (PhoneAuthCredential credential) {
+          debugPrint('Firebase phone auth: automatic verification completed.');
+          onAutoVerified(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          debugPrint(
+            'Firebase phone auth failed: ${e.code} ${e.message ?? ''}',
+          );
+          onError(_phoneAuthErrorMessage(e));
+        },
+        codeSent: (String verificationId, int? resendToken) {
+          debugPrint('Firebase phone auth: code sent.');
+          onCodeSent(verificationId);
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          debugPrint('Firebase phone auth: auto retrieval timed out.');
+          onAutoRetrievalTimeout?.call(verificationId);
+        },
+        timeout: const Duration(seconds: 60),
+      );
+    } on FirebaseAuthException catch (e) {
+      onError(_phoneAuthErrorMessage(e));
+    } catch (_) {
+      onError('Unable to start phone verification. Please try again.');
+    }
+  }
+
+  static String _phoneAuthErrorMessage(FirebaseAuthException error) {
+    switch (error.code) {
+      case 'invalid-phone-number':
+        return 'Enter a valid Kenyan phone number.';
+      case 'too-many-requests':
+        return 'Too many attempts. Please wait a few minutes and try again.';
+      case 'app-not-authorized':
+      case 'missing-client-identifier':
+      case 'captcha-check-failed':
+        return 'This app is not fully authorized for phone login yet. Please contact support.';
+      case 'network-request-failed':
+        return 'Network connection failed. Please check your internet and try again.';
+      default:
+        return error.message ?? 'Verification failed. Please try again.';
+    }
   }
 
   // Verify OTP

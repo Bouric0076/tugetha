@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import '../../../core/constants/app_colors.dart';
 import '../../../services/auth_service.dart';
@@ -47,7 +48,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
 
       if (mounted) {
         setState(() => _isLoading = false);
-        Navigator.pop(context);
+        context.pop();
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text(
@@ -94,7 +95,7 @@ class _CreateGroupScreenState extends State<CreateGroupScreen> {
             Icons.arrow_back_ios_new_rounded,
             size: 20,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
         ),
       ),
       body: SafeArea(

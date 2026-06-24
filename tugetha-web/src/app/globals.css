@@ -1,18 +1,21 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf7f0;
+  --background: #f7f7f5;
   --foreground: #1a123d;
 
   --primary: #2d1b8c;
   --primary-light: #534ab7;
   --emerald: #0f6e56;
   --gold: #d4a017;
-  --cream: #faf7f0;
+  --cream: #f7f7f5;
   --ink: #1a123d;
   --surface: #ffffff;
-  --line: #e8e1d6;
-  --muted: #665f7a;
+  --line: #dedbd2;
+  --muted: #5c5c52;
+  --soft: #f0efe7;
+  --neutral: #edede9;
+  --hero-overlay: rgba(26, 18, 61, 0.76);
 }
 
 @theme inline {
@@ -27,6 +30,8 @@
   --color-surface: var(--surface);
   --color-line: var(--line);
   --color-muted: var(--muted);
+  --color-soft: var(--soft);
+  --color-neutral: var(--neutral);
   --font-sans: var(--font-sans);
 }
 
@@ -51,9 +56,15 @@ button {
     color 180ms ease;
 }
 
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 3px;
+}
+
 ::selection {
-  background: var(--gold);
-  color: var(--ink);
+  background: var(--soft);
+  color: var(--primary);
 }
 
 @media (prefers-reduced-motion: reduce) {

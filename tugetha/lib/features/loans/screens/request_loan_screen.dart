@@ -1,3 +1,4 @@
+import 'package:go_router/go_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../core/constants/app_colors.dart';
@@ -154,8 +155,8 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
+                context.pop();
+                context.pop();
               },
               child: const Text('Back to Loans'),
             ),
@@ -185,7 +186,7 @@ class _RequestLoanScreenState extends State<RequestLoanScreen> {
             Icons.arrow_back_ios_new_rounded,
             size: 20,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.pop(),
         ),
       ),
       body: SafeArea(
